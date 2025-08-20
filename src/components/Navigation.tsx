@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
+import { navItems } from "../constants"
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -15,14 +16,6 @@ const Navigation = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" }
-  ];
-
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
@@ -30,6 +23,14 @@ const Navigation = () => {
     }
     setIsMobileMenuOpen(false);
   };
+
+  const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        setIsMobileMenuOpen(false); // Close mobile menu if open
+    };
 
   return (
     <nav 
@@ -42,7 +43,12 @@ const Navigation = () => {
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="text-xl font-bold">
+          <div
+              className="text-xl font-bold cursor-pointer"
+              onClick={scrollToTop}
+              role="button"
+              tabIndex={0}
+          >
             <span className="bg-gradient-primary bg-clip-text text-transparent">
               Antoine Garin
             </span>
@@ -54,7 +60,7 @@ const Navigation = () => {
               <button
                 key={item.name}
                 onClick={() => scrollToSection(item.href)}
-                className="text-foreground hover:text-accent transition-colors font-medium"
+                className="text-foreground hover:text-accent transition-colors font-medium cursor-pointer"
               >
                 {item.name}
               </button>
@@ -84,7 +90,7 @@ const Navigation = () => {
                 <button
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
-                  className="text-left text-foreground hover:text-accent transition-colors font-medium py-2"
+                  className="text-left text-foreground hover:text-accent transition-colors font-medium py-2 cursor-pointer"
                 >
                   {item.name}
                 </button>
