@@ -273,11 +273,6 @@
         display: inline-block;
     }
 
-    .hover-underline-mobile {
-        position: relative;
-        display: ;
-    }
-
     .hover-underline::after {
         content: '';
         position: absolute;
