@@ -1,26 +1,61 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import { navItems } from "../constants"
 
 const Navigation = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [activeItem, setActiveItem] = useState<string | null>(null);
+    const observerRef = useRef<IntersectionObserver | null>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    useEffect(() => {
+        observerRef.current = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        const foundItem = navItems.find(item => item.href === `#${id}`);
+                        if (foundItem) {
+                            setActiveItem(foundItem.name);
+                        }
+                    }
+                });
+            },
+            {
+                root: null,
+                threshold: 0.5,
+            }
+        );
 
-    const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
+        navItems.forEach((item) => {
+            const element = document.querySelector(item.href);
+            if (element) {
+                observerRef.current?.observe(element);
+            }
+        });
+
+        return () => {
+            if (observerRef.current) {
+                observerRef.current.disconnect();
+            }
+        };
+    }, [navItems]);
+
+    const scrollToSection = (item: {href: string, name: string}) => {
+    const element = document.querySelector(item.href);
 
     if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
+        setActiveItem(item.name);
     }
     setIsMobileMenuOpen(false);
     };
@@ -30,6 +65,7 @@ const Navigation = () => {
             top: 0,
             behavior: 'smooth'
         });
+        setActiveItem(null);
         setIsMobileMenuOpen(false); // Close mobile menu if open
     };
 
@@ -60,8 +96,15 @@ const Navigation = () => {
                     {navItems.map((item) => (
                         <button
                             key={item.name}
-                            onClick={() => scrollToSection(item.href)}
-                            className="text-foreground hover:text-accent transition-colors font-medium cursor-pointer"
+                            onClick={() => scrollToSection(item)}
+                            className={`hover-underline text-foreground hover:text-accent transition-colors font-medium
+                            cursor-pointer relative ${
+                                activeItem === item.name
+                                    ? "after:content-[''] after:absolute after:w-full after:h-[2px] after:bottom-0" +
+                                    "after:left-0 after:bg-accent bg-gradient-to-r from-gray-700 to-stone-800 rounded-md border  border-accent" +
+                                    "rounded px-2 py-1"
+                                    : ""
+                            }`}
                         >
                             {item.name}
                         </button>
@@ -90,9 +133,11 @@ const Navigation = () => {
                         {navItems.map((item) => (
                             <button
                                 key={item.name}
-                                onClick={() => scrollToSection(item.href)}
-                                className="text-left text-foreground hover:text-accent transition-colors font-medium
-                                py-2 cursor-pointer"
+                                onClick={() => scrollToSection(item)}
+                                className={`text-left text-foreground hover:text-accent transition-colors font-medium
+                                py-2 cursor-pointer ${
+                                    activeItem === item.name ? "underline" : ""
+                                }`}
                             >
                                 {item.name}
                             </button>
