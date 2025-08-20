@@ -205,6 +205,9 @@
     .text-muted-foreground {
         color: hsl(var(--muted-foreground));
     }
+    .text-muted-foreground-lighter {
+        color: color-mix(in srgb, hsl(var(--muted-foreground)) 50%, white 50%);
+    }
     .bg-accent {
         background-color: hsl(var(--accent));
     }

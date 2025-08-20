@@ -2,24 +2,15 @@ import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { ChevronDown, Github, Linkedin, Mail } from "lucide-react";
 import heroImage from "@/assets/hero-bg.jpg";
+import { TypeAnimation } from 'react-type-animation';
 
 const Hero = () => {
-  const [text, setText] = useState("");
-  const fullText = "EPFL Computer Science Student";
-  
-  useEffect(() => {
-    let index = 0;
-    const timer = setInterval(() => {
-      if (index < fullText.length) {
-        setText(fullText.slice(0, index + 1));
-        index++;
-      } else {
-        clearInterval(timer);
-      }
-    }, 100);
-    
-    return () => clearInterval(timer);
-  }, []);
+    const [isVisible, setIsVisible] = useState(false);
+
+    // Add a visibility check to ensure animations start only when component is visible
+    useEffect(() => {
+        setIsVisible(true);
+    }, []);
 
   const scrollToAbout = () => {
     document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
@@ -47,17 +38,32 @@ const Hero = () => {
         <div className="max-w-4xl mx-auto slide-up">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
             <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Hello, I'm
+              Antoine Garin
             </span>
-            <br />
-            <span className="text-white">Antoine Garin</span>
           </h1>
-          
-          <div className="h-16 mb-8">
-            <p className="text-xl md:text-2xl text-muted-foreground typing">
-              {text}
-            </p>
-          </div>
+
+            <div className="h-6 mb-8">
+                {isVisible && (
+                    <TypeAnimation
+                        sequence={[
+                            'EPFL CS Master Student',
+                            1500,
+                            'Minor in Financial Engineering',
+                            1500,
+                            'Software Engineer',
+                            1500,
+                            'Machine Learning Engineer',
+                            1500,
+                            'Table Tennis Amateur',
+                            1500,
+                        ]}
+                        wrapper="span"
+                        speed={45}
+                        className="text-xl md:text-2xl text-muted-foreground-lighter"
+                        repeat={Infinity}
+                    />
+                )}
+            </div>
           
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Passionate about the intersection of <span className="text-accent font-semibold">technology</span> and{" "}
@@ -69,7 +75,7 @@ const Hero = () => {
               View My Work
             </Button>
             <Button variant="outline" size="lg" className="min-w-48 text-white border-white hover:bg-white hover:text-background">
-              Download CV
+              Let's Connect !
             </Button>
           </div>
           
