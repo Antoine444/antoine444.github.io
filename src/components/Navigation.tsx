@@ -91,16 +91,24 @@ const Navigation = () => {
                             <button
                                 key={item.name}
                                 onClick={() => scrollToSection(item)}
-                                className={`hover-underline text-foreground hover:text-accent transition-colors font-medium
-                                cursor-pointer relative ${
+                                className={`transition-colors font-medium cursor-pointer ${
                                     activeItem === item.name
-                                        ? "after:content-[''] after:absolute after:w-full after:h-[2px] after:bottom-0" +
-                                        "after:left-0 after:bg-accent bg-gradient-to-r from-gray-700 to-stone-800 rounded-md border border-accent" +
-                                        "rounded px-2 py-1"
-                                        : ""
+                                        ? "text-foreground"
+                                        : "text-muted-foreground hover:text-accent-foreground"
                                 }`}
                             >
-                                {item.name}
+                                <span className={`inline-block ${
+                                    activeItem === item.name
+                                        ? "bg-gradient-to-r from-gray-700 to-stone-800 border border-accent rounded-md px-2 py-1"
+                                        : ""
+                                }`}>
+                                    <span className="relative inline-block">
+                                        {item.name}
+                                        <div className={`absolute bottom-[2px] left-0 h-[2px] bg-accent transition-all duration-300
+                                            ${activeItem === item.name ? 'w-full' : 'w-0 group-hover:w-full'}`}
+                                        ></div>
+                                    </span>
+                                </span>
                             </button>
                         ))}
                     </div>
@@ -124,17 +132,19 @@ const Navigation = () => {
                                 <button
                                     key={item.name}
                                     onClick={() => scrollToSection(item)}
-                                    className="w-full py-2 cursor-pointer text-left"
+                                    className="w-full py-2 cursor-pointer text-left px-4"
                                 >
-                                    <span className={`relative inline-block ${
+                                    <span className={`inline-block ${
                                         activeItem === item.name
-                                            ? "bg-gradient-to-r from-gray-700 to-stone-800 border border-accent rounded-md px-2 py-1"
-                                            : ""
+                                            ? "bg-gradient-to-r from-gray-700 to-stone-800 border border-accent rounded-md px-2 py-1 text-foreground"
+                                            : "text-muted-foreground"
                                     }`}>
-                                        {item.name}
-                                        {activeItem === item.name && (
-                                            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-accent"></div>
-                                        )}
+                                        <span className="relative inline-block">
+                                            {item.name}
+                                            <div className={`absolute bottom-[2px] left-0 h-[2px] bg-accent transition-all duration-300
+                                                ${activeItem === item.name ? 'w-full' : 'w-0'}`}
+                                            ></div>
+                                        </span>
                                     </span>
                                 </button>
                             ))}
