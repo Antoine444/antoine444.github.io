@@ -1,0 +1,161 @@
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import { ExternalLink, Github, TrendingUp, Code, Brain, Smartphone } from "lucide-react";
+
+const Projects = () => {
+  const projects = [
+    {
+      title: "FinTrack Analytics",
+      description: "A comprehensive financial analytics platform built with React and Python. Features real-time market data visualization, portfolio tracking, and risk assessment tools.",
+      technologies: ["React", "Python", "FastAPI", "PostgreSQL", "Chart.js"],
+      category: "Finance",
+      icon: TrendingUp,
+      status: "In Progress",
+      githubUrl: "#",
+      liveUrl: "#"
+    },
+    {
+      title: "Algorithm Visualizer",
+      description: "Interactive web application for visualizing sorting and graph algorithms. Helps students understand complex computer science concepts through dynamic animations.",
+      technologies: ["TypeScript", "D3.js", "React", "Tailwind CSS"],
+      category: "Education",
+      icon: Code,
+      status: "Completed",
+      githubUrl: "#",
+      liveUrl: "#"
+    },
+    {
+      title: "ML Trading Bot",
+      description: "Machine learning-powered trading algorithm that analyzes market patterns and executes trades. Implements various ML models for price prediction and sentiment analysis.",
+      technologies: ["Python", "TensorFlow", "Pandas", "Alpha Vantage API"],
+      category: "AI/Finance",
+      icon: Brain,
+      status: "Research",
+      githubUrl: "#",
+      liveUrl: null
+    },
+    {
+      title: "Campus Connect",
+      description: "Mobile app connecting EPFL students for study groups, events, and academic collaboration. Features real-time messaging and smart matching algorithms.",
+      technologies: ["React Native", "Firebase", "Node.js", "MongoDB"],
+      category: "Mobile",
+      icon: Smartphone,
+      status: "Prototype",
+      githubUrl: "#",
+      liveUrl: null
+    }
+  ];
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "Completed": return "success";
+      case "In Progress": return "accent";
+      case "Research": return "primary";
+      case "Prototype": return "secondary";
+      default: return "default";
+    }
+  };
+
+  const getStatusVariant = (status: string) => {
+    switch (status) {
+      case "Completed": return "default";
+      case "In Progress": return "secondary";
+      case "Research": return "outline";
+      case "Prototype": return "outline";
+      default: return "default";
+    }
+  };
+
+  return (
+    <section id="projects" className="py-20 bg-gradient-dark">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <span className="bg-gradient-accent bg-clip-text text-transparent">
+              Featured Projects
+            </span>
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            A showcase of my work spanning fintech applications, educational tools, 
+            and innovative solutions at the intersection of technology and finance.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          {projects.map((project, index) => (
+            <Card 
+              key={index} 
+              className="bg-card border-border hover:border-accent transition-all duration-300 hover:shadow-glow group overflow-hidden"
+            >
+              <CardHeader>
+                <div className="flex items-start justify-between mb-4">
+                  <project.icon className="h-8 w-8 text-accent group-hover:scale-110 transition-transform" />
+                  <Badge variant={getStatusVariant(project.status)}>
+                    {project.status}
+                  </Badge>
+                </div>
+                <CardTitle className="text-xl font-bold group-hover:text-accent transition-colors">
+                  {project.title}
+                </CardTitle>
+                <div className="text-sm text-muted-foreground font-medium">
+                  {project.category}
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground leading-relaxed">
+                  {project.description}
+                </p>
+                
+                <div className="flex flex-wrap gap-2">
+                  {project.technologies.map((tech, techIndex) => (
+                    <Badge 
+                      key={techIndex} 
+                      variant="outline" 
+                      className="text-xs hover:bg-accent hover:text-accent-foreground transition-colors"
+                    >
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
+                
+                <div className="flex gap-3 pt-4">
+                  <Button variant="ghost" size="sm" className="hover:text-accent">
+                    <Github className="h-4 w-4 mr-2" />
+                    Code
+                  </Button>
+                  {project.liveUrl && (
+                    <Button variant="ghost" size="sm" className="hover:text-accent">
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      Live Demo
+                    </Button>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        <div className="mt-16 text-center">
+          <div className="bg-card border border-border rounded-xl p-8">
+            <h3 className="text-2xl font-bold mb-4">
+              <span className="bg-gradient-primary bg-clip-text text-transparent">
+                More Projects Coming Soon
+              </span>
+            </h3>
+            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+              I'm constantly working on new projects and exploring innovative ideas. 
+              Check back regularly or follow me on GitHub for the latest updates.
+            </p>
+            <Button variant="hero" size="lg">
+              <Github className="h-5 w-5 mr-2" />
+              View All on GitHub
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Projects;
