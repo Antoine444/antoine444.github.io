@@ -278,13 +278,33 @@
         position: absolute;
         width: 0;
         height: 2px;
-        bottom: 0;
+        bottom: 1px;
         left: 0;
         background: var(--gradient-primary);
         transition: width 0.5s ease;
     }
 
     .hover-underline:hover::after {
+        width: 100%;
+    }
+
+    .hover-underline-custom {
+        position: relative;
+        display: inline-block;
+    }
+
+    .hover-underline-custom::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 1px; /* Matches the active underline position */
+        left: 0;
+        background: var(--gradient-primary);
+        transition: width 0.5s ease;
+    }
+
+    .hover-underline-custom:hover::after {
         width: 100%;
     }
 

@@ -91,22 +91,22 @@ const Navigation = () => {
                             <button
                                 key={item.name}
                                 onClick={() => scrollToSection(item)}
-                                className={`transition-colors font-medium cursor-pointer ${
+                                className={`transition-colors font-medium cursor-pointer group ${
                                     activeItem === item.name
                                         ? "text-foreground"
                                         : "text-muted-foreground hover:text-accent-foreground"
                                 }`}
                             >
-                                <span className={`inline-block ${
+                                <span className={`relative inline-block ${
                                     activeItem === item.name
                                         ? "bg-gradient-to-r from-gray-700 to-stone-800 border border-accent rounded-md px-2 py-1"
                                         : ""
                                 }`}>
-                                    <span className="relative inline-block">
+                                    <span className="relative inline-block hover-underline-custom">
                                         {item.name}
-                                        <div className={`absolute bottom-[2px] left-0 h-[2px] bg-accent transition-all duration-300
-                                            ${activeItem === item.name ? 'w-full' : 'w-0 group-hover:w-full'}`}
-                                        ></div>
+                                        {activeItem === item.name && (
+                                            <div className="absolute bottom-[1px] left-0 w-full h-[2px] bg-accent"></div>
+                                        )}
                                     </span>
                                 </span>
                             </button>
@@ -139,11 +139,11 @@ const Navigation = () => {
                                             ? "bg-gradient-to-r from-gray-700 to-stone-800 border border-accent rounded-md px-2 py-1 text-foreground"
                                             : "text-muted-foreground"
                                     }`}>
-                                        <span className="relative inline-block">
+                                        <span className="relative inline-block hover-underline-custom">
                                             {item.name}
-                                            <div className={`absolute bottom-[2px] left-0 h-[2px] bg-accent transition-all duration-300
-                                                ${activeItem === item.name ? 'w-full' : 'w-0'}`}
-                                            ></div>
+                                            {activeItem === item.name && (
+                                                <div className="absolute bottom-[1px] left-0 w-full h-[2px] bg-accent"></div>
+                                            )}
                                         </span>
                                     </span>
                                 </button>
