@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
-import { ChevronDown, Github, Linkedin, Mail } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import heroImage from "@/assets/hero-bg.jpg";
 import { TypeAnimation } from 'react-type-animation';
+import GithubIcon from "./../assets/github.svg?react";
+import LinkedinIcon from "./../assets/linkedin.svg?react";
+
 
 const Hero = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -81,13 +84,10 @@ const Hero = () => {
           
           <div className="flex justify-center space-x-6">
             <Button variant="ghost" size="icon" className="text-white hover:text-accent hover:bg-white/10">
-              <Github className="h-6 w-6" />
+                <GithubIcon className="h-6 w-6" />
             </Button>
             <Button variant="ghost" size="icon" className="text-white hover:text-accent hover:bg-white/10">
-              <Linkedin className="h-6 w-6" />
-            </Button>
-            <Button variant="ghost" size="icon" className="text-white hover:text-accent hover:bg-white/10">
-              <Mail className="h-6 w-6" />
+              <LinkedinIcon className="h-6 w-6" />
             </Button>
           </div>
         </div>
@@ -95,7 +95,8 @@ const Hero = () => {
       
       <button 
         onClick={scrollToAbout}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white hover:text-accent transition-colors animate-bounce"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white hover:text-accent
+        transition-colors animate-bounce cursor-pointer"
       >
         <ChevronDown className="h-8 w-8" />
       </button>
