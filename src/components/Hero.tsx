@@ -66,15 +66,15 @@ const Hero = () => {
             </div>
           
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Passionate about the intersection of <span className="text-accent font-semibold">technology</span> and{" "}
-            <span className="text-success font-semibold">finance</span>, building innovative solutions that drive the future.
+              Final-year CS master student with a minor in financial engineering at EPFL, passionate about
+              building innovative solutions by leveraging machine learning, AI tools and software engineering.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <Button variant="hero" size="lg" className="min-w-48">
               View My Work
             </Button>
-            <Button variant="outline" size="lg" className="min-w-48 text-white border-white hover:bg-white hover:text-background">
+            <Button variant="outline" size="lg" className="text-shadow-sm min-w-48 border-gray-500 hover:text-background">
               Let's Connect !
             </Button>
           </div>
