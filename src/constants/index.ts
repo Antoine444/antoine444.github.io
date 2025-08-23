@@ -33,7 +33,47 @@ const highlights = [
     }
 ];
 
+const skillCategories = [
+    {
+        title: "Programming Languages",
+        skills: ["Python", "Java", "Scala", "C++", "C", "Kotlin", "SQL", "VHDL"],
+        color: "accent"
+    },
+    /*
+    {
+        title: "Web Technologies",
+        skills: ["React", "Tailwind.css", ],
+        color: "primary"
+    },
+    */
+    {
+        title: "Data & Analytics",
+        skills: ["Machine Learning", "Data Science", "Pandas", "NumPy", "PyTorch", "Jupyter", "Matplotlib"],
+        color: "primary"
+    },
+    {
+        title: "Finance & Fintech",
+        skills: ["Financial Modeling", "Algorithmic Trading", "Risk Management", "Blockchain", "Portfolio Theory"],
+        color: "success"
+    },
+    /*
+    {
+        title: "Tools & Platforms",
+        skills: ["Git", "Docker", "Firebase"],
+        color: "primary"
+    },
+    */
+    /*
+    {
+        title: "Soft Skills",
+        skills: ["Problem Solving", "Critical Thinking", "Leadership", "Communication", "Project Management", "Team Collaboration"],
+        color: "success"
+    }
+    */
+];
+
 export {
     navItems,
     highlights,
+    skillCategories,
 };

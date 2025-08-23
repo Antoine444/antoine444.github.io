@@ -1,40 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
+import { skillCategories } from "../constants";
 
 const Skills = () => {
-  const skillCategories = [
-    {
-      title: "Programming Languages",
-      skills: ["Python", "Java", "C++", "JavaScript", "TypeScript", "SQL", "R"],
-      color: "accent"
-    },
-    {
-      title: "Web Technologies",
-      skills: ["React", "Node.js", "Next.js", "Vue.js", "HTML/CSS", "REST APIs", "GraphQL"],
-      color: "primary"
-    },
-    {
-      title: "Data & Analytics",
-      skills: ["Machine Learning", "Data Science", "Pandas", "NumPy", "TensorFlow", "Jupyter", "Tableau"],
-      color: "success"
-    },
-    {
-      title: "Finance & Fintech",
-      skills: ["Financial Modeling", "Algorithmic Trading", "Risk Management", "Blockchain", "DeFi", "Portfolio Theory"],
-      color: "accent"
-    },
-    {
-      title: "Tools & Platforms",
-      skills: ["Git", "Docker", "AWS", "Linux", "MongoDB", "PostgreSQL", "Firebase"],
-      color: "primary"
-    },
-    {
-      title: "Soft Skills",
-      skills: ["Problem Solving", "Critical Thinking", "Leadership", "Communication", "Project Management", "Team Collaboration"],
-      color: "success"
-    }
-  ];
-
   const getVariantFromColor = (color: string) => {
     switch (color) {
       case "accent": return "default";
