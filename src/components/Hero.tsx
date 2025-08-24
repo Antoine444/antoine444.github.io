@@ -84,10 +84,10 @@ const Hero = () => {
           
           <div className="flex justify-center space-x-6">
             <Button variant="ghost" size="icon" className="text-white hover:text-accent hover:bg-white/10">
-                <GithubIcon className="h-6 w-6" />
+                <GithubIcon className="size-6" />
             </Button>
             <Button variant="ghost" size="icon" className="text-white hover:text-accent hover:bg-white/10">
-              <LinkedinIcon className="h-6 w-6" />
+              <LinkedinIcon className="size-6" />
             </Button>
           </div>
         </div>
@@ -98,7 +98,7 @@ const Hero = () => {
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white hover:text-accent
         transition-colors animate-bounce cursor-pointer"
       >
-        <ChevronDown className="h-8 w-8" />
+        <ChevronDown className="size-8" />
       </button>
     </section>
   );
