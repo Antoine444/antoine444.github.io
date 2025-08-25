@@ -1,4 +1,4 @@
-import {Brain, Code, Smartphone, TrendingUp, Zap} from "lucide-react";
+import {Brain, Code, Smartphone, TrendingUp, Zap } from "lucide-react";
 import PingPong from "./../assets/pingpong.svg?react";
 
 const navItems = [
@@ -66,7 +66,7 @@ const skillCategories = [
     /*
     {
         title: "Soft Skills",
-        skills: ["Problem Solving", "Critical Thinking", "Leadership", "Communication", "Project Management", "Team Collaboration"],
+        skills: ["Problem-Solving", "Critical Thinking", "Leadership", "Communication", "Project Management", "Team Collaboration"],
         color: "success"
     }
     */
@@ -74,42 +74,62 @@ const skillCategories = [
 
 const projects = [
     {
-        title: "FinTrack Analytics",
-        description: "A comprehensive financial analytics platform built with React and Python. Features real-time market data visualization, portfolio tracking, and risk assessment tools.",
-        technologies: ["React", "Python", "FastAPI", "PostgreSQL", "Chart.js"],
-        category: "Finance",
+        title: "Bitcoin Midprice Prediction",
+        description: "Developed a CNN-based model for predicting Bitcoin midprice trends using a depth-10 limit order book dataset spanning one month. The model classifies price movements into up, down, or stationary categories.",
+        technologies: ["Python", "Bitcoin", "CNNs", "Deep Learning", "PyTorch", "Data Preprocessing"],
+        category: "ML/Finance",
         icon: TrendingUp,
-        status: "In Progress",
-        githubUrl: "#",
+        status: "Research",
+        githubUrl: "https://github.com/Antoine444/Bitcoin-prediction",
         liveUrl: "#"
     },
     {
-        title: "Algorithm Visualizer",
-        description: "Interactive web application for visualizing sorting and graph algorithms. Helps students understand complex computer science concepts through dynamic animations.",
-        technologies: ["TypeScript", "D3.js", "React", "Tailwind CSS"],
-        category: "Education",
+        title: "YouTube Data Analysis",
+        description: "Analyzed YouTube's evolution from entertainment to professional platform through data processing, statistical analysis, and visualization with pandas, matplotlib, seaborn, and scikit-learn.",
+        technologies: ["Python", "Data Visualization", "SciPy", "Matplotlib", "Pandas", "Scikit-learn"],
+        category: "Data Analysis",
         icon: Code,
         status: "Completed",
-        githubUrl: "#",
+        githubUrl: "https://github.com/Antoine444/Youtube-analysis",
         liveUrl: "#"
     },
     {
-        title: "ML Trading Bot",
-        description: "Machine learning-powered trading algorithm that analyzes market patterns and executes trades. Implements various ML models for price prediction and sentiment analysis.",
-        technologies: ["Python", "TensorFlow", "Pandas", "Alpha Vantage API"],
-        category: "AI/Finance",
+        title: "Bachelor's Research Project",
+        description: "Researched the impact of anonymization techniques on human face detection by training Faster-RCNN and YoloX models using OpenMMDetection. Evaluated performance on datasets like Crowdhuman and MOT17 with anonymized faces to assess the effects of anonymization.",
+        technologies: ["Python", "Computer Vision", "OpenMMDetection", "PyTorch", "Research Report"],
+        category: "Computer Vision",
         icon: Brain,
         status: "Research",
         githubUrl: "#",
         liveUrl: null
     },
     {
-        title: "Campus Connect",
-        description: "Mobile app connecting EPFL students for study groups, events, and academic collaboration. Features real-time messaging and smart matching algorithms.",
-        technologies: ["React Native", "Firebase", "Node.js", "MongoDB"],
+        title: "GoMeet",
+        description: "GoMeet is an Android app developed with a team of six students. It allows users to create and join events using Google Maps API for location services. Built with Kotlin, Firebase, and Android Jetpack, following Scrum methodology.",
+        technologies: ["Kotlin", "Android Jetpack", "Firebase", "GoogleMaps API", "Scrum", "UI", "Git"],
         category: "Mobile",
         icon: Smartphone,
         status: "Prototype",
+        githubUrl: "https://github.com/SwEnt-Project-G18/GoMeet",
+        liveUrl: null
+    },
+    {
+        title: "QWEN-STEM-Tutor",
+        description: "QWEN STEM Tutor is an innovative project offering educational support in STEM subjects. We fine-tuned Qwen3-0.6B-Base with DPO and QLoRA, enhanced by RAG on Wikipedia documents.",
+        technologies: ["Python", "HuggingFace", "SFT", "RAG", "DPO", "Quantization", "NLP", "LLMs"],
+        category: "NLP",
+        icon: Smartphone,
+        status: "Prototype",
+        githubUrl: "https://github.com/Antoine444/QWEN-STEM-Tutor",
+        liveUrl: null
+    },
+    {
+        title: "Portfolio",
+        description: "Developing a responsive portfolio website using React, TypeScript, and Tailwind CSS to showcase projects and skills.",
+        technologies: ["React", "Tailwind CSS", "TypeScript"],
+        category: "Web Development",
+        icon: Smartphone,
+        status: "In Progress",
         githubUrl: "#",
         liveUrl: null
     }
