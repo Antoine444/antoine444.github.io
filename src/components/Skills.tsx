@@ -22,7 +22,7 @@ const Skills = () => {
                         </span>
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                        A comprehensive toolkit spanning computer science fundamentals, modern web technologies,
+                        A comprehensive toolkit spanning computer science fundamentals, data analysis and AI technologies,
                         and financial analysis capabilities.
                     </p>
                 </div>
@@ -68,7 +68,7 @@ const Skills = () => {
                         </p>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                             <div>
-                                <div className="text-2xl font-bold text-accent mb-1">3+</div>
+                                <div className="text-2xl font-bold text-accent mb-1">5+</div>
                                 <div className="text-sm text-muted-foreground">Years Coding</div>
                             </div>
                             <div>
