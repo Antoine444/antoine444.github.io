@@ -1,4 +1,4 @@
-import {Brain, TrendingUp, Zap} from "lucide-react";
+import {Brain, Code, Smartphone, TrendingUp, Zap} from "lucide-react";
 import PingPong from "./../assets/pingpong.svg?react";
 
 const navItems = [
@@ -72,8 +72,52 @@ const skillCategories = [
     */
 ];
 
+const projects = [
+    {
+        title: "FinTrack Analytics",
+        description: "A comprehensive financial analytics platform built with React and Python. Features real-time market data visualization, portfolio tracking, and risk assessment tools.",
+        technologies: ["React", "Python", "FastAPI", "PostgreSQL", "Chart.js"],
+        category: "Finance",
+        icon: TrendingUp,
+        status: "In Progress",
+        githubUrl: "#",
+        liveUrl: "#"
+    },
+    {
+        title: "Algorithm Visualizer",
+        description: "Interactive web application for visualizing sorting and graph algorithms. Helps students understand complex computer science concepts through dynamic animations.",
+        technologies: ["TypeScript", "D3.js", "React", "Tailwind CSS"],
+        category: "Education",
+        icon: Code,
+        status: "Completed",
+        githubUrl: "#",
+        liveUrl: "#"
+    },
+    {
+        title: "ML Trading Bot",
+        description: "Machine learning-powered trading algorithm that analyzes market patterns and executes trades. Implements various ML models for price prediction and sentiment analysis.",
+        technologies: ["Python", "TensorFlow", "Pandas", "Alpha Vantage API"],
+        category: "AI/Finance",
+        icon: Brain,
+        status: "Research",
+        githubUrl: "#",
+        liveUrl: null
+    },
+    {
+        title: "Campus Connect",
+        description: "Mobile app connecting EPFL students for study groups, events, and academic collaboration. Features real-time messaging and smart matching algorithms.",
+        technologies: ["React Native", "Firebase", "Node.js", "MongoDB"],
+        category: "Mobile",
+        icon: Smartphone,
+        status: "Prototype",
+        githubUrl: "#",
+        liveUrl: null
+    }
+];
+
 export {
     navItems,
     highlights,
     skillCategories,
+    projects,
 };
