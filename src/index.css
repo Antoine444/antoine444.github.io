@@ -228,6 +228,19 @@
     .group:hover .group-hover-accent {
         color: hsl(var(--accent)) !important;
     }
+    /* Base styles for all CardTitle components */
+    .card-title {
+        color: hsl(var(--card-foreground));
+        transition: all 0.3s ease;
+    }
+
+    /* Gradient effect on hover when inside a group */
+    .group:hover .card-title {
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
     .bg-accent {
         background-color: hsl(var(--accent));
     }

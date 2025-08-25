@@ -34,7 +34,7 @@ const Skills = () => {
                             className="bg-card border-border hover:border-accent transition-all duration-300 hover:shadow-card group"
                         >
                             <CardHeader>
-                                <CardTitle className="text-lg font-bold text-accent transition-all duration-300 group-hover-gradient-text">
+                                <CardTitle className="text-lg">
                                     {category.title}
                                 </CardTitle>
                             </CardHeader>
