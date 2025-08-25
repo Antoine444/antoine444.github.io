@@ -212,6 +212,22 @@
     .text-muted-foreground-lighter {
         color: color-mix(in srgb, hsl(var(--muted-foreground)) 50%, white 50%);
     }
+    .gradient-text-primary {
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .group:hover .group-hover-gradient-text {
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .group:hover .group-hover-accent {
+        color: hsl(var(--accent)) !important;
+    }
     .bg-accent {
         background-color: hsl(var(--accent));
     }
