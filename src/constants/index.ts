@@ -37,7 +37,7 @@ const skillCategories = [
     {
         title: "Programming Languages",
         skills: ["Python", "Java", "Scala", "C++", "C", "Kotlin", "SQL", "VHDL"],
-        color: "accent"
+        color: "primary"
     },
     /*
     {
@@ -47,9 +47,9 @@ const skillCategories = [
     },
     */
     {
-        title: "Data & Analytics",
-        skills: ["Machine Learning", "Data Science", "Pandas", "NumPy", "PyTorch", "Jupyter", "Matplotlib"],
-        color: "primary"
+        title: "Data Science & AI",
+        skills: ["Machine Learning", "Data Science", "Pandas", "NumPy", "PyTorch", "Matplotlib", "NLP"],
+        color: "secondary"
     },
     {
         title: "Finance & Fintech",

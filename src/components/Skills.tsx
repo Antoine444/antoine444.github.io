@@ -5,10 +5,10 @@ import { skillCategories } from "../constants";
 const Skills = () => {
     const getVariantFromColor = (color: string) => {
         switch (color) {
-            case "accent": return "default";
-            case "primary": return "secondary";
-            case "success": return "outline";
-            default: return "default";
+            case "primary": return "primary";
+            case "secondary": return "secondary";
+            case "success": return "success";
+            default: return "primary";
         }
     };
 
@@ -31,7 +31,7 @@ const Skills = () => {
                     {skillCategories.map((category, index) => (
                         <Card
                             key={index}
-                            className="bg-card border-border hover:border-accent transition-all duration-300 hover:shadow-card group"
+                            className="group"
                         >
                             <CardHeader>
                                 <CardTitle className="text-lg">
