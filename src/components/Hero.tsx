@@ -3,8 +3,8 @@ import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
 import heroImage from "@/assets/hero-bg.jpg";
 import { TypeAnimation } from 'react-type-animation';
-import GithubIcon from "./../assets/github.svg?react";
-import LinkedinIcon from "./../assets/linkedin.svg?react";
+import GithubIcon from "../assets/icons/github.svg?react";
+import LinkedinIcon from "../assets/icons/linkedin.svg?react";
 
 
 const Hero = () => {
