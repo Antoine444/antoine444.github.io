@@ -6,6 +6,7 @@
         --background: 220 30% 5%;
         --foreground: 210 40% 98%;
         --card: 220 25% 8%;
+        --card-foreground: 210 40% 98%;
         /* Primary - EPFL Red with modern twist */
         --primary: 0 75% 55%;
         /* Secondary - Finance Blue */
@@ -101,6 +102,9 @@
     .text-muted-foreground-lighter {
         color: color-mix(in srgb, hsl(var(--muted-foreground)) 50%, white 50%);
     }
+    .text-card-foreground {
+        color: hsl(var(--card-foreground));
+    }
 
     .bg-accent {
         background-color: hsl(var(--accent));
@@ -110,6 +114,20 @@
     }
     .bg-card {
         background-color: hsl(var(--card));
+    }
+
+    /* Base styles for all CardTitle components */
+    .card-title {
+        color: hsl(var(--card-foreground));
+        transition: all 0.3s ease;
+    }
+
+    /* Gradient effect on hover when inside a group */
+    .group:hover .card-title {
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
     }
 
     /* Border Radius */
