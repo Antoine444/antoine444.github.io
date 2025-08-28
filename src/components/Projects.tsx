@@ -1,7 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { ExternalLink } from "lucide-react";
 import GithubIcon from "../assets/icons/github.svg?react";
 import { projects } from "../constants";
 
@@ -59,21 +58,22 @@ const Projects = () => {
                                     {project.technologies.map((tech, techIndex) => (
                                         <Badge
                                             key={techIndex}
-                                            variant="outline"
+                                            variant="secondary"
                                             className="text-xs hover:bg-accent hover:text-accent-foreground transition-colors"
                                         >
                                             {tech}
                                         </Badge>
                                     ))}
                                 </div>
-
-                                <div className="flex gap-3 pt-4">
+                            </CardContent>
+                            <CardFooter className="text-start">
+                                <div className="flex">
                                     <Button variant="ghost" size="sm" className="hover:text-accent">
                                         <GithubIcon className="h-4 w-4 mr-2" />
-                                        Code
+                                        View Project
                                     </Button>
                                 </div>
-                            </CardContent>
+                            </CardFooter>
                         </Card>
                     ))}
                 </div>
