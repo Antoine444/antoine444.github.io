@@ -7,11 +7,11 @@ import { projects } from "../constants";
 const Projects = () => {
     const getStatusVariant = (status: string) => {
         switch (status) {
-            case "Completed": return "default";
+            case "Completed": return "primary";
             case "In Progress": return "secondary";
-            case "Research": return "outline";
-            case "Prototype": return "outline";
-            default: return "default";
+            case "Research": return "success";
+            case "Prototype": return "destructive";
+            default: return "primary";
         }
     };
 
