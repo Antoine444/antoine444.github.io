@@ -5,6 +5,7 @@ import Skills from "../sections/Skills.tsx";
 import Projects from "../sections/Projects.tsx";
 import Contact from "../sections/Contact.tsx";
 import Education from "../sections/Education.tsx";
+import Footer from "../sections/Footer.tsx";
 
 const Index = () => {
     return (
@@ -19,6 +20,7 @@ const Index = () => {
                 <Skills />
                 <About />
                 <Contact />
+                <Footer />
             </main>
         </div>
     );
