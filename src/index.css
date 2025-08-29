@@ -106,11 +106,12 @@
 @layer components {
     /* Modern Backgrounds */
     .bg-background {
-        background-color: var(--color-background);
-    }
-
-    .bg-gradient-hero {
-        background: linear-gradient(135deg, var(--color-hero-gradient-start) 0%, var(--color-hero-gradient-end) 100%);
+        background-color: theme('colors.neutral.950'); /* optional base color */
+        background-image: radial-gradient(
+                ellipse 80% 80% at 50% -20%,
+                rgba(120, 119, 198, 0.3),
+                rgba(255, 255, 255, 0)
+        );
     }
 
     .bg-primary {
@@ -143,6 +144,10 @@
 
     .bg-success {
         background-color: var(--color-success);
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(135deg, var(--color-hero-gradient-start) 0%, var(--color-hero-gradient-end) 100%);
     }
 
     .bg-gradient-dark {

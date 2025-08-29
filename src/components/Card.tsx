@@ -1,23 +1,103 @@
-const Card = () => {
+import * as React from "react";
+
+interface CardProps {
+    title?: string;
+    subtitle?: string;
+    description?: string;
+    image?: string;
+    imageAlt?: string;
+    buttonText?: string;
+    buttonHref?: string;
+    onButtonClick?: () => void;
+    variant?: 'default' | 'elevated' | 'outline';
+    interactive?: boolean;
+    className?: string;
+    children?: React.ReactNode;
+}
+
+const Card: React.FC<CardProps> = ({
+                                       title,
+                                       subtitle,
+                                       description,
+                                       image,
+                                       imageAlt = "Card image",
+                                       buttonText,
+                                       buttonHref,
+                                       onButtonClick,
+                                       variant = 'default',
+                                       interactive = false,
+                                       className = "",
+                                       children
+                                   }) => {
+    // Base classes
+    let cardClasses = "flex flex-col rounded-xl overflow-hidden transition-all duration-300";
+
+    // Variant styles
+    if (variant === 'elevated') {
+        cardClasses += " bg-card shadow-lg hover:shadow-xl border-0";
+    } else if (variant === 'outline') {
+        cardClasses += " bg-transparent border-2 border-border hover:border-accent";
+    } else {
+        cardClasses += " bg-card border border-border shadow-sm hover:shadow-md";
+    }
+
+    // Interactive styles
+    if (interactive) {
+        cardClasses += " hover:scale-[1.02] cursor-pointer";
+    }
+
+    // Add custom classes
+    if (className) {
+        cardClasses += " " + className;
+    }
+
+    const ButtonElement = buttonHref ? 'a' : 'button';
+
     return (
-        <div className="flex flex-col bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
-            <img className="w-full h-auto rounded-t-xl" src="https://images.unsplash.com/photo-1680868543815-b8666dba60f7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&q=80" alt="Card Image" />
-            <div className="p-4 md:p-5">
-                <h3 className="text-lg font-bold text-gray-800 dark:text-white">
-                    Card title
-                </h3>
-                <p className="mt-1 text-xs font-medium uppercase text-gray-500 dark:text-neutral-500">
-                    Card subtitle
-                </p>
-                <p className="mt-1 text-gray-500 dark:text-neutral-400">
-                    Some quick example text to build on the card title and make up the bulk of the card's content.
-                </p>
-                <a className="mt-2 py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                   href="#">
-                    Go somewhere
-                </a>
+        <div className={cardClasses}>
+            <div className="p-4 md:p-5 flex-grow">
+                {image && (
+                    <div className="mb-4">
+                        <img
+                            className="w-16 h-16 object-contain bg-white rounded-xl p-2"
+                            src={image}
+                            alt={imageAlt}
+                        />
+                    </div>
+                )}
+
+                {title && (
+                    <h3 className="text-lg font-bold text-foreground mb-2">
+                        {title}
+                    </h3>
+                )}
+
+                {subtitle && (
+                    <p className="text-xs font-medium uppercase text-muted-foreground mb-2 tracking-wide">
+                        {subtitle}
+                    </p>
+                )}
+
+                {description && (
+                    <p className="text-muted-foreground leading-relaxed mb-4">
+                        {description}
+                    </p>
+                )}
+
+                {children}
+
+                {(buttonText || onButtonClick) && (
+                    <ButtonElement
+                        className="inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-primary text-primary-foreground hover:bg-primary/90 focus:outline-none focus:bg-primary/90 disabled:opacity-50 disabled:pointer-events-none px-4 py-2 mt-4 transition-colors duration-200"
+                        href={buttonHref}
+                        onClick={onButtonClick}
+                    >
+                        {buttonText || "Learn More"}
+                    </ButtonElement>
+                )}
             </div>
         </div>
-    )
-}
-export default Card
+    );
+};
+
+export default Card;

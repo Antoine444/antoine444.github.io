@@ -1,19 +1,20 @@
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { Badge } from "../components/ui/badge";
+import Badge from "../components/Badge"; // updated path to new Badge
 import { GraduationCap, Calendar, MapPin, Award } from "lucide-react";
 import { educations } from "../constants";
+import Card from "../components/Card";
+import EpflLogo from "../assets/icons/epfl.svg";
 
 const Education = () => {
     return (
-        <section id="education" className="py-20 bg-gradient-dark">
+        <section id="education" className="py-20 bg-background">
             <div className="container mx-auto px-6">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="bg-gradient-accent bg-clip-text text-transparent">
-              Education
-            </span>
+                        <span className="bg-gradient-success bg-clip-text text-transparent">
+                            Education
+                        </span>
                     </h2>
-                    <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                    <p className="text-xl text-slate-400 max-w-3xl mx-auto">
                         Academic journey through one of Europe's leading technical universities,
                         building expertise in computer science and financial technology.
                     </p>
@@ -23,70 +24,65 @@ const Education = () => {
                     {educations.map((edu, index) => (
                         <Card
                             key={index}
-                            className="bg-card border-border hover:border-accent transition-all duration-500 hover:shadow-glow group animate-fade-in"
-                            style={{ animationDelay: `${index * 200}ms` }}
+                            image={EpflLogo}
+                            className="animate-fade-in relative"
+                            variant="elevated"
+                            interactive
                         >
-                            <CardHeader className="pb-4">
-                                <div className="flex items-start justify-between flex-wrap gap-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className="p-2 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors">
-                                            <GraduationCap className="h-6 w-6 text-accent" />
-                                        </div>
-                                        <div>
-                                            <CardTitle className="text-xl font-bold group-hover:text-accent transition-colors">
-                                                {edu.degree}
-                                            </CardTitle>
-                                            <p className="text-primary font-semibold">{edu.field}</p>
-                                        </div>
-                                    </div>
-                                    <Badge
-                                        variant={edu.status === "Completed" ? "default" : "secondary"}
-                                        className="hover:scale-105 transition-transform"
-                                    >
-                                        {edu.status}
-                                    </Badge>
-                                </div>
-                            </CardHeader>
+                            {/* Status badge at top-left corner */}
+                            <div className="absolute top-4 right-4">
+                                <Badge
+                                    variant={edu.status === "Completed" ? "green" : "yellow"}
+                                >
+                                    {edu.status}
+                                </Badge>
+                            </div>
 
-                            <CardContent className="space-y-6">
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <div className="space-y-4">
-                                        <div className="flex items-center gap-2 text-muted-foreground">
-                                            <MapPin className="h-4 w-4" />
-                                            <span className="font-medium">{edu.school}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-muted-foreground">
-                                            <Calendar className="h-4 w-4" />
-                                            <span>{edu.period}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-muted-foreground">
-                                            <Award className="h-4 w-4" />
-                                            <span>GPA: <span className="font-semibold text-success">{edu.gpa}</span></span>
-                                        </div>
-                                    </div>
+                            {/* Title */}
+                            <div className="flex items-center gap-2 mb-2">
+                                <GraduationCap className="h-5 w-5 text-accent" />
+                                <span className="font-semibold">{edu.degree}</span>
+                            </div>
 
-                                    <div className="space-y-3">
-                                        <h4 className="font-semibold text-accent">Key Areas</h4>
-                                        <div className="flex flex-wrap gap-2">
-                                            {edu.highlights.map((highlight, highlightIndex) => (
-                                                <Badge
-                                                    key={highlightIndex}
-                                                    variant="outline"
-                                                    className="text-xs hover:scale-105 transition-transform cursor-default hover:border-accent"
-                                                >
-                                                    {highlight}
-                                                </Badge>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
+                            {/* Subtitle */}
+                            <h3 className="text-md text-muted-foreground mb-4">{edu.field}</h3>
 
-                                <div className="pt-4 border-t border-border">
-                                    <p className="text-muted-foreground leading-relaxed">
-                                        {edu.description}
-                                    </p>
+                            {/* Description */}
+                            <p className="mb-4 text-slate-400">{edu.description}</p>
+
+                            {/* School, period, GPA */}
+                            <div className="flex flex-col md:flex-row md:justify-between gap-4 mb-4 text-muted-foreground">
+                                <div className="flex items-center gap-2">
+                                    <MapPin className="h-4 w-4" />
+                                    <span className="font-medium">{edu.school}</span>
                                 </div>
-                            </CardContent>
+                                <div className="flex items-center gap-2">
+                                    <Calendar className="h-4 w-4" />
+                                    <span>{edu.period}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Award className="h-4 w-4" />
+                                    <span>
+                                        GPA: <span className="font-semibold text-success">{edu.gpa}</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Highlights */}
+                            <div>
+                                <h4 className="font-semibold text-accent mb-2">Key Areas</h4>
+                                <div className="flex flex-wrap gap-2">
+                                    {edu.highlights.map((highlight, idx) => (
+                                        <Badge
+                                            key={idx}
+                                            variant="default"
+                                            className="cursor-default"
+                                        >
+                                            {highlight}
+                                        </Badge>
+                                    ))}
+                                </div>
+                            </div>
                         </Card>
                     ))}
                 </div>
