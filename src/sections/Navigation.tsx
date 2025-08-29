@@ -150,7 +150,7 @@ const Navigation = () => {
                             onClick={() => scrollToSection(item)}
                             className={`transition-colors font-medium 
                              hover:text-foreground relative py-2 cursor-pointer ${
-                                activeItem === item.name ? 'text-foreground' : 'text-muted-foreground'
+                                activeItem === item.name ? 'text-foreground' : 'text-slate-400'
                             }`}
                         >
                             {item.name}
@@ -191,7 +191,7 @@ const Navigation = () => {
                                 className={`block w-full py-3 text-left font-medium transition-colors relative cursor-pointer ${
                                     activeItem === item.name
                                         ? 'text-foreground'
-                                        : 'text-muted-foreground hover:text-foreground'
+                                        : 'text-slate-400 hover:text-foreground'
                                 }`}
                             >
                                 <span className="relative inline-block">
