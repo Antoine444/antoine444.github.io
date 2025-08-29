@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../components/ui/button.tsx";
 import { ChevronDown } from "lucide-react";
 import heroImage from "@/assets/hero-bg.jpg";
 import { TypeAnimation } from 'react-type-animation';

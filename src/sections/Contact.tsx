@@ -1,7 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card.tsx";
+import { Button } from "../components/ui/button.tsx";
+import { Input } from "../components/ui/input.tsx";
+import { Textarea } from "../components/ui/textarea.tsx";
 import { Mail, MapPin, Phone, Github, Linkedin, Twitter } from "lucide-react";
 
 const Contact = () => {

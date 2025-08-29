@@ -1,17 +1,17 @@
-import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "./ui/card";
-import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
+import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "../components/ui/card.tsx";
+import { Button } from "../components/ui/button.tsx";
+import Badge from "../components/Badge.tsx";
 import GithubIcon from "../assets/icons/github.svg?react";
 import { projects } from "../constants";
 
 const Projects = () => {
     const getStatusVariant = (status: string) => {
         switch (status) {
-            case "Completed": return "primary";
-            case "In Progress": return "secondary";
-            case "Research": return "success";
-            case "Prototype": return "destructive";
-            default: return "primary";
+            case "Completed": return "green";
+            case "In Progress": return "yellow";
+            case "Research": return "indigo";
+            case "Prototype": return "purple";
+            default: return "default";
         }
     };
 
@@ -53,13 +53,11 @@ const Projects = () => {
                                 <p className="text-muted-foreground leading-relaxed">
                                     {project.description}
                                 </p>
-
                                 <div className="flex flex-wrap gap-2">
                                     {project.technologies.map((tech, techIndex) => (
                                         <Badge
                                             key={techIndex}
-                                            variant="secondary"
-                                            className="text-xs hover:bg-accent hover:text-accent-foreground transition-colors"
+                                            variant="pink"
                                         >
                                             {tech}
                                         </Badge>

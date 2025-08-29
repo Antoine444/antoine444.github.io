@@ -1,9 +1,9 @@
-import Navigation from "./../components/Navigation";
-import Hero from "./../components/Hero";
-import About from "./../components/About";
-import Skills from "./../components/Skills";
-import Projects from "./../components/Projects";
-import Contact from "./../components/Contact";
+import Navigation from "../sections/Navigation.tsx";
+import Hero from "../sections/Hero.tsx";
+import About from "../sections/About.tsx";
+import Skills from "../sections/Skills.tsx";
+import Projects from "../sections/Projects.tsx";
+import Contact from "../sections/Contact.tsx";
 
 const Index = () => {
   return (

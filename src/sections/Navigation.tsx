@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../components/ui/button.tsx";
 import { Menu, X } from "lucide-react";
 import { navItems } from "../constants"
 
