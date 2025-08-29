@@ -112,9 +112,45 @@ const projects = [
     }
 ];
 
+const educations = [
+    {
+        degree: "Master of Science",
+        field: "Computer Science & Finance",
+        school: "École Polytechnique Fédérale de Lausanne (EPFL)",
+        location: "Lausanne, Switzerland",
+        period: "2023 - 2025",
+        status: "In Progress",
+        highlights: [
+            "Advanced Machine Learning",
+            "Quantitative Finance",
+            "Software Engineering",
+            "Data Science & Analytics"
+        ],
+        gpa: "5.8/6.0",
+        description: "Specialized focus on the intersection of computer science and financial technology, with emphasis on algorithmic trading and fintech innovation."
+    },
+    {
+        degree: "Bachelor of Science",
+        field: "Computer Science",
+        school: "École Polytechnique Fédérale de Lausanne (EPFL)",
+        location: "Lausanne, Switzerland",
+        period: "2020 - 2023",
+        status: "Completed",
+        highlights: [
+            "Algorithms & Data Structures",
+            "Software Development",
+            "Mathematics & Statistics",
+            "Computer Systems"
+        ],
+        gpa: "5.4/6.0",
+        description: "Strong foundation in computer science fundamentals with additional coursework in mathematics and systems design."
+    }
+];
+
 export {
     navItems,
     highlights,
     skillCategories,
     projects,
+    educations,
 };

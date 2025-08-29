@@ -4,22 +4,24 @@ import About from "../sections/About.tsx";
 import Skills from "../sections/Skills.tsx";
 import Projects from "../sections/Projects.tsx";
 import Contact from "../sections/Contact.tsx";
+import Education from "../sections/Education.tsx";
 
 const Index = () => {
-  return (
-    <div className="min-h-screen">
-      <Navigation />
-      <main>
-        <div id="home">
-          <Hero />
+    return (
+        <div className="min-h-screen">
+            <Navigation />
+            <main>
+                <div id="home">
+                    <Hero />
+                </div>
+                <Education />
+                <Projects />
+                <Skills />
+                <About />
+                <Contact />
+            </main>
         </div>
-        <About />
-        <Skills />
-        <Projects />
-        <Contact />
-      </main>
-    </div>
-  );
+    );
 };
 
 export default Index;
