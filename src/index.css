@@ -27,9 +27,12 @@
     --color-warning: oklch(0.78 0.15 70);            /* Modern amber */
     --color-warning-foreground: oklch(0.08 0.02 240); /* Dark text on warning */
 
-    /* Destructive - Modern Red */
-    --color-destructive: oklch(0.65 0.20 15);        /* Contemporary red */
-    --color-destructive-foreground: oklch(0.96 0.01 240); /* White text on destructive */
+    /* Modern Red - Gradient */
+    --color-red: oklch(0.65 0.20 15);                /* Solid modern red */
+    --color-red-foreground: oklch(0.96 0.01 240);    /* White text on red */
+
+    --color-gradient-red-start: oklch(0.70 0.18 20); /* Vibrant red */
+    --color-gradient-red-end: oklch(0.50 0.20 10);   /* Darker crimson */
 
     /* Muted tones - Subtle grays with blue tint */
     --color-muted: oklch(0.20 0.03 240);             /* Lighter elevated surface */
@@ -142,8 +145,24 @@
         background-color: var(--color-card);
     }
 
+    .bg-glass {
+        background-color: var(--color-glass);
+    }
+
     .bg-success {
         background-color: var(--color-success);
+    }
+
+    .bg-red {
+        background-color: var(--color-red);
+    }
+
+    .bg-gradient-red {
+        background: linear-gradient(
+                135deg,
+                var(--color-gradient-red-start) 0%,
+                var(--color-gradient-red-end) 100%
+        );
     }
 
     .bg-gradient-success {
@@ -170,11 +189,11 @@
     }
 
     .shadow-glow-primary {
-        box-shadow: var(--shadow-glow-primary);
+        box-shadow: var(--shadow-hover), var(--shadow-glow-primary);
     }
 
     .shadow-glow-accent {
-        box-shadow: var(--shadow-glow-accent);
+        box-shadow: var(--shadow-hover), var(--shadow-glow-accent);
     }
 
     /* Modern Animations */
@@ -255,6 +274,10 @@
         color: var(--color-accent);
     }
 
+    .text-red {
+        color: var(--color-red);
+    }
+
     .text-muted-foreground {
         color: var(--color-muted-foreground);
     }
@@ -279,6 +302,7 @@
     .card-modern:hover {
         transform: translateY(-4px);
         box-shadow: var(--shadow-hover);
+        border-color: oklch(0.68 0.12 240 / 0.5); /* Subtle accent border on hover */
     }
 
     .card-glass {
@@ -286,7 +310,13 @@
         backdrop-filter: blur(16px) saturate(1.2);
         border-radius: var(--radius-card);
         border: 1px solid oklch(0.30 0.04 240 / 0.4);
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .card-glass:hover {
+        transform: translateY(-2px);
+        backdrop-filter: blur(20px) saturate(1.3);
+        border-color: oklch(0.68 0.12 240 / 0.6);
     }
 
     /* Enhanced Typography */

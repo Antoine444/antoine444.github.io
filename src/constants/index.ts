@@ -118,7 +118,7 @@ const educations = [
         field: "Computer Science & Finance",
         school: "École Polytechnique Fédérale de Lausanne (EPFL)",
         location: "Lausanne, Switzerland",
-        period: "2023 - 2025",
+        period: "2024 - 2027",
         status: "In Progress",
         highlights: [
             "Advanced Machine Learning",
@@ -126,7 +126,7 @@ const educations = [
             "Software Engineering",
             "Data Science & Analytics"
         ],
-        gpa: "5.8/6.0",
+        gpa: "5.0/6.0",
         description: "Specialized focus on the intersection of computer science and financial technology, with emphasis on algorithmic trading and fintech innovation."
     },
     {
@@ -134,7 +134,7 @@ const educations = [
         field: "Computer Science",
         school: "École Polytechnique Fédérale de Lausanne (EPFL)",
         location: "Lausanne, Switzerland",
-        period: "2020 - 2023",
+        period: "2020 - 2024",
         status: "Completed",
         highlights: [
             "Algorithms & Data Structures",
@@ -142,7 +142,7 @@ const educations = [
             "Mathematics & Statistics",
             "Computer Systems"
         ],
-        gpa: "5.4/6.0",
+        gpa: "4.5/6.0",
         description: "Strong foundation in computer science fundamentals with additional coursework in mathematics and systems design."
     }
 ];
