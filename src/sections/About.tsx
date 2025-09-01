@@ -44,7 +44,7 @@ const About = () => {
                                     <highlight.icon className="h-8 w-8" />
                                 }
                                 description={highlight.description}
-                                variant="outline"
+                                variant="elevated"
                                 interactive
                                 className="group"
                             />
