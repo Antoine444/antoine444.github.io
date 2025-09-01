@@ -1,5 +1,6 @@
 import Card from "../components/Card.tsx";
 import { highlights } from "../constants";
+import { LightbulbIcon, TargetIcon, AwardIcon } from "lucide-react";
 
 const About = () => {
     return (
@@ -17,17 +18,17 @@ const About = () => {
                     {/* Left side: Journey text */}
                     <div className="space-y-6">
                         <h3 className="text-2xl font-bold text-foreground mb-4">My Journey</h3>
-                        <p className="text-slate-400 leading-relaxed text-lg">
+                        <p className="text-slate-400 text-lg leading-relaxed">
                             Currently pursuing my degree at EPFL, one of Europe's most prestigious technical universities.
                             My academic focus spans from fundamental computer science principles to advanced topics in
                             machine learning and software architecture.
                         </p>
-                        <p className="text-slate-400 leading-relaxed text-lg">
+                        <p className="text-slate-400 text-lg leading-relaxed">
                             Beyond academics, I'm deeply interested in the financial sector's digital transformation.
                             I explore how emerging technologies like blockchain, AI, and data analytics are reshaping
                             traditional finance and creating new opportunities.
                         </p>
-                        <p className="text-slate-400 leading-relaxed text-lg">
+                        <p className="text-slate-400 text-lg leading-relaxed">
                             On a personal note, I am also a table tennis player, I played for more than 12 years,
                             and I competed in numerous table tennis tournaments at the French national level.
                         </p>
@@ -43,7 +44,7 @@ const About = () => {
                                     <highlight.icon className="h-8 w-8" />
                                 }
                                 description={highlight.description}
-                                variant="elevated"
+                                variant="outline"
                                 interactive
                                 className="group"
                             />
@@ -52,34 +53,38 @@ const About = () => {
                 </div>
 
                 {/* Bottom section: What Drives Me */}
-                <div className="mt-16 text-center container mx-auto">
-                    <Card variant="glass" className="p-2 relative flex flex-col justify-between">
-                        <h3 className="text-xl font-bold text-center mb-8">
+                <div className="mt-16">
+                    <h3 className="text-xl font-bold text-center mb-8">
                         <span className="bg-gradient-success bg-clip-text text-transparent">
                             What Drives Me
                         </span>
-                        </h3>
-                        <div className="grid md:grid-cols-3 gap-6 text-center">
-                            <div>
-                                <div className="text-3xl font-bold text-accent mb-2">Innovation</div>
-                                <p className="text-sm text-slate-400">
-                                    Constantly exploring new technologies and methodologies
-                                </p>
-                            </div>
-                            <div>
-                                <div className="text-3xl font-bold text-success mb-2">Impact</div>
-                                <p className="text-sm text-slate-400">
-                                    Building solutions that make a real difference
-                                </p>
-                            </div>
-                            <div>
-                                <div className="text-3xl font-bold text-red mb-2">Excellence</div>
-                                <p className="text-sm text-slate-400">
-                                    Striving for the highest standards in everything I do
-                                </p>
-                            </div>
-                        </div>
-                    </Card>
+                    </h3>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        <Card
+                            title="Innovation"
+                            titleIcon={<LightbulbIcon className="h-6 w-6 text-accent" />}
+                            description="Constantly exploring new technologies and methodologies."
+                            variant="glass"
+                            interactive
+                            className="relative text-left"
+                        />
+                        <Card
+                            title="Impact"
+                            titleIcon={<TargetIcon className="h-6 w-6 text-success" />}
+                            description="Building solutions that make a real difference."
+                            variant="glass"
+                            interactive
+                            className="relative text-left"
+                        />
+                        <Card
+                            title="Excellence"
+                            titleIcon={<AwardIcon className="h-6 w-6 text-red" />}
+                            description="Striving for the highest standards in everything I do."
+                            variant="glass"
+                            interactive
+                            className="relative text-left"
+                        />
+                    </div>
                 </div>
             </div>
         </section>
