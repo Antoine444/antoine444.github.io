@@ -10,6 +10,7 @@ interface CardProps {
     image?: string;
     imageAlt?: string;
     buttonText?: string;
+    buttonIcon?: React.ReactNode;
     buttonHref?: string;
     onButtonClick?: () => void;
     variant?: 'default' | 'elevated' | 'outline' | 'glass';
@@ -28,6 +29,7 @@ const Card: React.FC<CardProps> = ({
                                        image,
                                        imageAlt = "Card image",
                                        buttonText,
+                                       buttonIcon,
                                        buttonHref,
                                        onButtonClick,
                                        variant = 'default',
@@ -63,7 +65,7 @@ const Card: React.FC<CardProps> = ({
 
     return (
         <div className={cardClasses + " group"}>
-            <div className="p-4 md:p-5 flex-grow">
+            <div className="p-4 md:p-5 flex-grow flex flex-col">
                 <div className="flex gap-4 mb-4">
                     {image && (
                         <div className="flex-shrink-0">
@@ -106,19 +108,30 @@ const Card: React.FC<CardProps> = ({
                     </div>
                 </div>
 
-                {children}
+                <div className="flex-grow">
+                    {children}
+                </div>
 
                 {(buttonText || onButtonClick) && (
-                    <ButtonElement
-                        className="inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border
-                                    border-transparent bg-primary text-primary-foreground hover:bg-primary/90
-                                    focus:outline-none focus:bg-primary/90 disabled:opacity-50
-                                    disabled:pointer-events-none px-4 py-2 mt-4 transition-colors duration-200"
-                        href={buttonHref}
-                        onClick={onButtonClick}
-                    >
-                        {buttonText || "Learn More"}
-                    </ButtonElement>
+                    <div className="mt-auto pt-6">
+                        <ButtonElement
+                            className="btn-card-modern group/btn"
+                            href={buttonHref}
+                            onClick={onButtonClick}
+                        >
+                            <span className="btn-content">
+                                {buttonIcon && (
+                                    <span className="btn-icon">
+                                        {buttonIcon}
+                                    </span>
+                                )}
+                                <span className="btn-text">
+                                    {buttonText || "Learn More"}
+                                </span>
+                            </span>
+                            <div className="btn-glow"></div>
+                        </ButtonElement>
+                    </div>
                 )}
             </div>
         </div>

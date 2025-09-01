@@ -89,7 +89,7 @@ const projects = [
         technologies: ["Kotlin", "Android Jetpack", "Firebase", "GoogleMaps API", "Scrum", "UI", "Git"],
         category: "Mobile",
         icon: Smartphone,
-        status: "Prototype",
+        status: "Completed",
         githubUrl: "https://github.com/SwEnt-Project-G18/GoMeet",
     },
     {
@@ -98,7 +98,7 @@ const projects = [
         technologies: ["Python", "HuggingFace", "SFT", "RAG", "DPO", "Quantization", "NLP", "LLMs"],
         category: "NLP",
         icon: HuggingFaceIcon,
-        status: "Prototype",
+        status: "Completed",
         githubUrl: "https://github.com/Antoine444/QWEN-STEM-Tutor",
     },
     {
