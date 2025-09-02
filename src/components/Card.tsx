@@ -13,6 +13,7 @@ interface CardProps {
     buttonIcon?: React.ReactNode;
     buttonHref?: string;
     onButtonClick?: () => void;
+    buttonDownload?: string;
     variant?: 'default' | 'elevated' | 'outline' | 'glass';
     interactive?: boolean;
     className?: string;
@@ -32,36 +33,37 @@ const Card: React.FC<CardProps> = ({
                                        buttonIcon,
                                        buttonHref,
                                        onButtonClick,
+                                       buttonDownload,
                                        variant = 'default',
                                        interactive = false,
                                        className = "",
                                        children
                                    }) => {
-    // Base classes - Modern card foundation
-    let cardClasses = "flex flex-col rounded-xl overflow-hidden transition-all duration-300 ease-out";
+    let cardClasses =
+        "flex flex-col rounded-xl overflow-hidden transition-all duration-300 ease-out";
 
-    // Variant styles - Modern and portfolio-tailored
-    if (variant === 'elevated') {
+    if (variant === "elevated") {
         cardClasses += " card-modern hover:shadow-glow-primary";
-    } else if (variant === 'outline') {
-        cardClasses += " bg-transparent border-2 border-border hover:border-accent hover:shadow-glow-accent";
-    } else if (variant === 'glass') {
-        cardClasses += " card-glass hover:border-accent/60 hover:bg-glass/80";
+    } else if (variant === "outline") {
+        cardClasses +=
+            " bg-transparent border-2 border-border hover:border-accent hover:shadow-glow-accent";
+    } else if (variant === "glass") {
+        cardClasses +=
+            " card-glass hover:border-accent/60 hover:bg-glass/80";
     } else {
-        cardClasses += " bg-card border border-border shadow-card hover:shadow-hover hover:border-accent/50";
+        cardClasses +=
+            " bg-card border border-border shadow-card hover:shadow-hover hover:border-accent/50";
     }
 
-    // Interactive styles - Enhanced modern effects
     if (interactive) {
         cardClasses += " hover:-translate-y-1";
     }
 
-    // Add custom classes
     if (className) {
         cardClasses += " " + className;
     }
 
-    const ButtonElement = buttonHref ? 'a' : 'button';
+    const ButtonElement = buttonHref ? "a" : "button";
 
     return (
         <div className={cardClasses + " group"}>
@@ -81,8 +83,10 @@ const Card: React.FC<CardProps> = ({
                         {title && (
                             <div className="flex items-center gap-2 mb-2">
                                 {titleIcon && titleIcon}
-                                <h3 className="text-lg font-bold text-foreground group-hover:text-accent
-                                                transition-colors duration-300">
+                                <h3
+                                    className="text-lg font-bold text-foreground group-hover:text-accent
+                                                transition-colors duration-300"
+                                >
                                     {title}
                                 </h3>
                             </div>
@@ -99,7 +103,11 @@ const Card: React.FC<CardProps> = ({
 
                         {description && (
                             <div className="flex items-start gap-2">
-                                {descriptionIcon && <div className="flex-shrink-0 mt-1">{descriptionIcon}</div>}
+                                {descriptionIcon && (
+                                    <div className="flex-shrink-0 mt-1">
+                                        {descriptionIcon}
+                                    </div>
+                                )}
                                 <p className="text-slate-400 leading-relaxed">
                                     {description}
                                 </p>
@@ -108,9 +116,7 @@ const Card: React.FC<CardProps> = ({
                     </div>
                 </div>
 
-                <div className="flex-grow">
-                    {children}
-                </div>
+                <div className="flex-grow">{children}</div>
 
                 {(buttonText || onButtonClick) && (
                     <div className="mt-auto pt-6">
@@ -118,6 +124,9 @@ const Card: React.FC<CardProps> = ({
                             className="btn-card-modern group/btn"
                             href={buttonHref}
                             onClick={onButtonClick}
+                            {...(buttonHref && buttonDownload
+                                ? { download: buttonDownload }
+                                : {})} // 👈 Apply filename only if provided
                         >
                             <span className="btn-content">
                                 {buttonIcon && (

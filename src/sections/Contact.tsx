@@ -135,7 +135,8 @@ const Contact = () => {
                             title="Open to Opportunities"
                             description="Currently seeking internships and entry-level positions in fintech, software development, or data science."
                             buttonText="Download CV"
-                            buttonHref="/files/Antoine_CV.pdf"
+                            buttonHref="/files/CV.pdf"
+                            buttonDownload="CV.pdf"
                             variant="glass"
                             interactive
                         />
