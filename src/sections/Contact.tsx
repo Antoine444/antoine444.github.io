@@ -2,12 +2,12 @@ import Card from "../components/Card.tsx";
 import { Mail } from "lucide-react";
 import { socialLinks } from "../constants";
 import emailjs from "@emailjs/browser";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 export const Contact = () => {
     const formRef = useRef<HTMLFormElement | null>(null);
     const [loading, setLoading] = useState(false);
-    const [submitStatus, setSubmitStatus] = useState(null);
+    const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
     const [form, setForm] = useState({
         firstName: "",
         lastName: "",
@@ -16,15 +16,22 @@ export const Contact = () => {
         message: "",
     });
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
         setSubmitStatus(null);
+
+        // Check if formRef.current is not null before using it
+        if (!formRef.current) {
+            setSubmitStatus('error');
+            setLoading(false);
+            return;
+        }
 
         try {
             await emailjs.sendForm(
