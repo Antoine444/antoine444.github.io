@@ -1,14 +1,8 @@
 import Card from "../components/Card.tsx";
 import { Mail } from "lucide-react";
-import GithubIcon from "../assets/icons/github.svg?react";
-import LinkedinIcon from "../assets/icons/linkedin.svg?react";
+import { socialLinks } from "../constants";
 
 const Contact = () => {
-    const socialLinks = [
-        { icon: <GithubIcon className="h-6 w-6" />, href: "https://github.com/your-profile", label: "GitHub" },
-        { icon: <LinkedinIcon className="h-6 w-6" />, href: "https://linkedin.com/in/your-profile", label: "LinkedIn" }
-    ];
-
     return (
         <section id="contact" className="py-20 bg-background">
             <div className="container mx-auto px-6">
@@ -120,11 +114,13 @@ const Contact = () => {
                                         key={index}
                                         href={link.href}
                                         aria-label={link.label}
-                                        className="transition transform duration-300 hover:scale-110 hover:-rotate-24 hover:-translate-y-1"
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        className={`p-2 rounded-2xl hover:bg-white/10 cursor-pointer transition
+                                                    transform duration-300 hover:scale-110 hover:-translate-y-1 
+                                                    ${link.label === "GitHub" ? "hover:-rotate-24" : "hover:rotate-24"}`}
                                     >
-                                        {link.icon}
+                                        <link.icon className="size-6" />
                                     </a>
                                 ))}
                             </div>

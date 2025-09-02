@@ -1,5 +1,4 @@
-import GithubIcon from "../assets/icons/github.svg?react";
-import LinkedinIcon from "../assets/icons/linkedin.svg?react";
+import {socialLinks} from "../constants";
 
 const Footer = () => {
     return (
@@ -11,24 +10,20 @@ const Footer = () => {
                     </p>
 
                     <div className="flex items-center gap-6">
-                        <a
-                            href="https://github.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="transition transform duration-300 hover:scale-110 hover:-rotate-24 hover:-translate-y-1"
-                            aria-label="GitHub Profile"
-                        >
-                            <GithubIcon className="w-5 h-5" />
-                        </a>
-                        <a
-                            href="https://linkedin.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="transition transform duration-300 hover:scale-110 hover:rotate-24 hover:-translate-y-1"
-                            aria-label="LinkedIn Profile"
-                        >
-                            <LinkedinIcon className="w-5 h-5" />
-                        </a>
+                        {socialLinks.map((link, index) => (
+                            <a
+                                key={index}
+                                href={link.href}
+                                aria-label={link.label}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`hover:bg-white/10 cursor-pointer transition
+                                                    transform duration-300 hover:scale-110 hover:-translate-y-1 
+                                                    ${link.label === "GitHub" ? "hover:-rotate-24" : "hover:rotate-24"}`}
+                            >
+                                <link.icon className="size-5" />
+                            </a>
+                        ))}
                     </div>
 
                 </div>

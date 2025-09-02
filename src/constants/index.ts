@@ -4,6 +4,8 @@ import YoutubeIcon from "../assets/icons/youtube.svg?react";
 import ReactIcon from "../assets/icons/react.svg?react"
 import ResearchIcon from "../assets/icons/research.svg?react"
 import HuggingFaceIcon from "../assets/icons/huggingface.svg?react"
+import GithubIcon from "../assets/icons/github.svg?react";
+import LinkedinIcon from "../assets/icons/linkedin.svg?react";
 
 const navItems = [
     { name: "Education", href: "#education" },
@@ -147,10 +149,24 @@ const educations = [
     }
 ];
 
+const socialLinks = [
+    {
+        icon: GithubIcon,
+        href: "https://github.com/Antoine444",
+        label: "GitHub",
+    },
+    {
+        icon: LinkedinIcon,
+        href: "https://www.linkedin.com/in/antoine-garin-775560320/",
+        label: "LinkedIn",
+    }
+]
+
 export {
     navItems,
     highlights,
     skillCategories,
     projects,
     educations,
+    socialLinks,
 };

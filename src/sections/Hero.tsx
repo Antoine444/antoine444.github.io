@@ -2,8 +2,7 @@ import {useState, useEffect} from "react";
 import {ChevronDown} from "lucide-react";
 import heroImage from "@/assets/hero-bg.jpg";
 import {TypeAnimation} from 'react-type-animation';
-import GithubIcon from "../assets/icons/github.svg?react";
-import LinkedinIcon from "../assets/icons/linkedin.svg?react";
+import {socialLinks} from "../constants";
 
 
 const Hero = () => {
@@ -107,22 +106,20 @@ const Hero = () => {
                     </div>
 
                     <div className="flex justify-center space-x-6">
-                        <button
-                            type="button"
-                            className="flex items-center justify-center p-2 rounded-2xl hover:bg-white/10
-                            transition cursor-pointer transform duration-300
-                            hover:scale-110 hover:rotate-24 hover:-translate-y-1"
-                        >
-                            <GithubIcon className="size-6"/>
-                        </button>
-
-                        <button
-                            type="button"
-                            className="p-2 rounded-2xl hover:bg-white/10 transition cursor-pointer transform duration-300
-                            hover:scale-110 hover:-rotate-24 hover:-translate-y-1"
-                        >
-                            <LinkedinIcon className="size-6"/>
-                        </button>
+                        {socialLinks.map((link, index) => (
+                            <a
+                                key={index}
+                                href={link.href}
+                                aria-label={link.label}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`p-2 rounded-2xl hover:bg-white/10 cursor-pointer transition
+                                                    transform duration-300 hover:scale-110 hover:-translate-y-1 
+                                                    ${link.label === "GitHub" ? "hover:-rotate-24" : "hover:rotate-24"}`}
+                            >
+                                <link.icon className="size-6" />
+                            </a>
+                        ))}
                     </div>
                 </div>
             </div>
