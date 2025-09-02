@@ -40,7 +40,7 @@ const Projects = () => {
                             subtitle={project.category}
                             description={project.description}
                             buttonText="View Project"
-                            buttonIcon={<GithubIcon className="h-4 w-4" />}
+                            buttonIcon={<GithubIcon className="size-4" />}
                             buttonHref={project.githubUrl}
                             variant="default"
                             interactive
@@ -71,8 +71,8 @@ const Projects = () => {
                         title="More Projects Coming Soon"
                         description="I'm constantly working on new projects and exploring innovative ideas. Check back regularly or follow me on GitHub for the latest updates."
                         buttonText="View All on GitHub"
-                        buttonIcon={<GithubIcon className="h-5 w-5" />}
-                        buttonHref="https://github.com/your-profile"
+                        buttonIcon={<GithubIcon className="size-5" />}
+                        buttonHref="https://github.com/Antoine444"
                         variant="glass"
                         interactive
                         className="relative flex flex-col justify-between"

@@ -126,7 +126,9 @@ const Card: React.FC<CardProps> = ({
                             onClick={onButtonClick}
                             {...(buttonHref && buttonDownload
                                 ? { download: buttonDownload }
-                                : {})} // 👈 Apply filename only if provided
+                                : {})} // Apply filename only if provided
+                            target="_blank"
+                            rel="noopener noreferrer"
                         >
                             <span className="btn-content">
                                 {buttonIcon && (
