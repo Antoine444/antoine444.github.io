@@ -18,7 +18,28 @@ interface CardProps {
     interactive?: boolean;
     className?: string;
     children?: React.ReactNode;
+    id?: string; // Added to identify unique cards
 }
+
+// Context to manage active card state
+const ActiveCardContext = React.createContext<{
+    activeCardId: string | null;
+    setActiveCardId: (id: string | null) => void;
+}>({
+    activeCardId: null,
+    setActiveCardId: () => {},
+});
+
+// Provider component to wrap multiple cards
+export const CardContainer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [activeCardId, setActiveCardId] = React.useState<string | null>(null);
+
+    return (
+        <ActiveCardContext.Provider value={{ activeCardId, setActiveCardId }}>
+            {children}
+        </ActiveCardContext.Provider>
+    );
+};
 
 const Card: React.FC<CardProps> = ({
                                        title,
@@ -38,26 +59,50 @@ const Card: React.FC<CardProps> = ({
                                        interactive = false,
                                        className = "",
                                        children,
+                                       id,
                                    }) => {
+    const { activeCardId, setActiveCardId } = React.useContext(ActiveCardContext);
+    const cardId = React.useRef(id || `card-${Math.random().toString(36).substr(2, 9)}`).current;
+    const isActive = activeCardId === cardId;
+
+    const handleCardClick = (e: React.MouseEvent) => {
+        // Don't trigger card activation if clicking on button
+        if ((e.target as HTMLElement).closest('button, a')) {
+            return;
+        }
+
+        if (isActive) {
+            setActiveCardId(null); // Deactivate if clicking the same card
+        } else {
+            setActiveCardId(cardId); // Activate this card
+        }
+    };
+
     let cardClasses =
-        "flex flex-col rounded-xl overflow-hidden transition-all duration-300 ease-out";
+        "flex flex-col rounded-xl overflow-hidden transition-all duration-300 ease-out cursor-pointer";
 
     if (variant === "elevated") {
-        cardClasses += " card-modern hover:shadow-glow-primary active:shadow-glow-primary";
+        cardClasses += isActive
+            ? " card-modern shadow-glow-primary"
+            : " card-modern hover:shadow-glow-primary";
     } else if (variant === "outline") {
-        cardClasses +=
-            " bg-transparent border-2 border-border hover:border-accent hover:shadow-glow-accent active:border-accent active:shadow-glow-accent";
+        cardClasses += isActive
+            ? " bg-transparent border-2 border-accent shadow-glow-accent"
+            : " bg-transparent border-2 border-border hover:border-accent hover:shadow-glow-accent";
     } else if (variant === "glass") {
-        cardClasses +=
-            " card-glass hover:border-accent/60 hover:bg-glass/80 active:border-accent/60 active:bg-glass/80";
+        cardClasses += isActive
+            ? " card-glass border-accent/60 bg-glass/80"
+            : " card-glass hover:border-accent/60 hover:bg-glass/80";
     } else {
-        cardClasses +=
-            " bg-card border border-border shadow-card hover:shadow-hover hover:border-accent/50 active:shadow-hover active:border-accent/50";
+        cardClasses += isActive
+            ? " bg-card border border-accent/50 shadow-hover"
+            : " bg-card border border-border shadow-card hover:shadow-hover hover:border-accent/50";
     }
 
     if (interactive) {
-        // hover effect for desktop, active effect for mobile/tap
-        cardClasses += " hover:-translate-y-1 active:scale-95";
+        cardClasses += isActive
+            ? " -translate-y-1"
+            : " hover:-translate-y-1 active:scale-95";
     }
 
     if (className) {
@@ -67,7 +112,7 @@ const Card: React.FC<CardProps> = ({
     const ButtonElement = buttonHref ? "a" : "button";
 
     return (
-        <div className={cardClasses + " group"}>
+        <div className={cardClasses + " group"} onClick={handleCardClick}>
             <div className="p-4 md:p-5 flex-grow flex flex-col">
                 <div className="flex gap-4 mb-4">
                     {image && (
@@ -85,8 +130,11 @@ const Card: React.FC<CardProps> = ({
                             <div className="flex items-center gap-2 mb-2">
                                 {titleIcon && titleIcon}
                                 <h3
-                                    className="text-lg font-bold text-foreground group-hover:text-accent
-                                            group-active:text-accent transition-colors duration-300"
+                                    className={`text-lg font-bold transition-colors duration-300 ${
+                                        isActive
+                                            ? "text-accent"
+                                            : "text-foreground group-hover:text-accent"
+                                    }`}
                                 >
                                     {title}
                                 </h3>
@@ -124,7 +172,10 @@ const Card: React.FC<CardProps> = ({
                         <ButtonElement
                             className="btn-card-modern group/btn"
                             href={buttonHref}
-                            onClick={onButtonClick}
+                            onClick={(e) => {
+                                e.stopPropagation(); // Prevent card click
+                                onButtonClick?.();
+                            }}
                             {...(buttonHref && buttonDownload
                                 ? { download: buttonDownload }
                                 : {})}
