@@ -34,29 +34,30 @@ const Card: React.FC<CardProps> = ({
                                        buttonHref,
                                        onButtonClick,
                                        buttonDownload,
-                                       variant = 'default',
+                                       variant = "default",
                                        interactive = false,
                                        className = "",
-                                       children
+                                       children,
                                    }) => {
     let cardClasses =
         "flex flex-col rounded-xl overflow-hidden transition-all duration-300 ease-out";
 
     if (variant === "elevated") {
-        cardClasses += " card-modern hover:shadow-glow-primary";
+        cardClasses += " card-modern hover:shadow-glow-primary active:shadow-glow-primary";
     } else if (variant === "outline") {
         cardClasses +=
-            " bg-transparent border-2 border-border hover:border-accent hover:shadow-glow-accent";
+            " bg-transparent border-2 border-border hover:border-accent hover:shadow-glow-accent active:border-accent active:shadow-glow-accent";
     } else if (variant === "glass") {
         cardClasses +=
-            " card-glass hover:border-accent/60 hover:bg-glass/80";
+            " card-glass hover:border-accent/60 hover:bg-glass/80 active:border-accent/60 active:bg-glass/80";
     } else {
         cardClasses +=
-            " bg-card border border-border shadow-card hover:shadow-hover hover:border-accent/50";
+            " bg-card border border-border shadow-card hover:shadow-hover hover:border-accent/50 active:shadow-hover active:border-accent/50";
     }
 
     if (interactive) {
-        cardClasses += " hover:-translate-y-1";
+        // hover effect for desktop, active effect for mobile/tap
+        cardClasses += " hover:-translate-y-1 active:scale-95";
     }
 
     if (className) {
@@ -85,7 +86,7 @@ const Card: React.FC<CardProps> = ({
                                 {titleIcon && titleIcon}
                                 <h3
                                     className="text-lg font-bold text-foreground group-hover:text-accent
-                                                transition-colors duration-300"
+                                            group-active:text-accent transition-colors duration-300"
                                 >
                                     {title}
                                 </h3>
@@ -126,7 +127,7 @@ const Card: React.FC<CardProps> = ({
                             onClick={onButtonClick}
                             {...(buttonHref && buttonDownload
                                 ? { download: buttonDownload }
-                                : {})} // Apply filename only if provided
+                                : {})}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
