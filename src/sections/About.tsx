@@ -1,4 +1,4 @@
-import Card from "../components/Card.tsx";
+import Card, {CardContainer} from "../components/Card.tsx";
 import { highlights } from "../constants";
 import { LightbulbIcon, TargetIcon, AwardIcon } from "lucide-react";
 
@@ -35,21 +35,23 @@ const About = () => {
                     </div>
 
                     {/* Right side: Highlights grid */}
-                    <div className="grid grid-cols-2 gap-4">
-                        {highlights.map((highlight, index) => (
-                            <Card
-                                key={index}
-                                title={highlight.title}
-                                titleIcon={
-                                    <highlight.icon className="h-8 w-8" />
-                                }
-                                description={highlight.description}
-                                variant="elevated"
-                                interactive
-                                className="group"
-                            />
-                        ))}
-                    </div>
+                    <CardContainer>
+                        <div className="grid grid-cols-2 gap-4">
+                            {highlights.map((highlight, index) => (
+                                <Card
+                                    key={index}
+                                    title={highlight.title}
+                                    titleIcon={
+                                        <highlight.icon className="h-8 w-8" />
+                                    }
+                                    description={highlight.description}
+                                    variant="elevated"
+                                    interactive
+                                    className="group"
+                                />
+                            ))}
+                        </div>
+                    </CardContainer>
                 </div>
 
                 {/* Bottom section: What Drives Me */}
@@ -59,32 +61,34 @@ const About = () => {
                             What Drives Me
                         </span>
                     </h3>
-                    <div className="grid md:grid-cols-3 gap-6">
-                        <Card
-                            title="Innovation"
-                            titleIcon={<LightbulbIcon className="h-6 w-6 text-accent" />}
-                            description="Constantly exploring new technologies and methodologies."
-                            variant="glass"
-                            interactive
-                            className="relative text-left"
-                        />
-                        <Card
-                            title="Impact"
-                            titleIcon={<TargetIcon className="h-6 w-6 text-success" />}
-                            description="Building solutions that make a real difference."
-                            variant="glass"
-                            interactive
-                            className="relative text-left"
-                        />
-                        <Card
-                            title="Excellence"
-                            titleIcon={<AwardIcon className="h-6 w-6 text-red" />}
-                            description="Striving for the highest standards in everything I do."
-                            variant="glass"
-                            interactive
-                            className="relative text-left"
-                        />
-                    </div>
+                    <CardContainer>
+                        <div className="grid md:grid-cols-3 gap-6">
+                            <Card
+                                title="Innovation"
+                                titleIcon={<LightbulbIcon className="h-6 w-6 text-accent" />}
+                                description="Constantly exploring new technologies and methodologies."
+                                variant="glass"
+                                interactive
+                                className="relative text-left"
+                            />
+                            <Card
+                                title="Impact"
+                                titleIcon={<TargetIcon className="h-6 w-6 text-success" />}
+                                description="Building solutions that make a real difference."
+                                variant="glass"
+                                interactive
+                                className="relative text-left"
+                            />
+                            <Card
+                                title="Excellence"
+                                titleIcon={<AwardIcon className="h-6 w-6 text-red" />}
+                                description="Striving for the highest standards in everything I do."
+                                variant="glass"
+                                interactive
+                                className="relative text-left"
+                            />
+                        </div>
+                    </CardContainer>
                 </div>
             </div>
         </section>

@@ -1,4 +1,4 @@
-import Card  from "../components/Card.tsx";
+import Card, {CardContainer} from "../components/Card.tsx";
 import Badge from "../components/Badge.tsx";
 import { skillCategories } from "../constants";
 
@@ -27,30 +27,31 @@ const Skills = () => {
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {skillCategories.map((category, index) => (
-                        <Card
-                            key={index}
-                            title={category.title}
-                            variant="elevated"
-                            interactive
-                            className="group"
-                        >
-                            <div className="flex flex-wrap gap-2">
-                                {category.skills.map((skill, skillIndex) => (
-                                    <Badge
-                                        key={skillIndex}
-                                        variant={getVariantFromColor(category.color)}
-                                        className="text-xs hover:scale-105 transition-transform cursor-default"
-                                    >
-                                        {skill}
-                                    </Badge>
-                                ))}
-                            </div>
-                        </Card>
-                    ))}
-                </div>
-
+                <CardContainer>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {skillCategories.map((category, index) => (
+                            <Card
+                                key={index}
+                                title={category.title}
+                                variant="elevated"
+                                interactive
+                                className="group"
+                            >
+                                <div className="flex flex-wrap gap-2">
+                                    {category.skills.map((skill, skillIndex) => (
+                                        <Badge
+                                            key={skillIndex}
+                                            variant={getVariantFromColor(category.color)}
+                                            className="text-xs hover:scale-105 transition-transform cursor-default"
+                                        >
+                                            {skill}
+                                        </Badge>
+                                    ))}
+                                </div>
+                            </Card>
+                        ))}
+                    </div>
+                </CardContainer>
 
                 <div className="mt-16 text-center">
                     <div className="bg-gradient-dark rounded-xl p-8 border border-border">
