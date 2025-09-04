@@ -83,7 +83,7 @@ const projects = [
         category: "Computer Vision",
         icon: ResearchIcon,
         status: "Research",
-        githubUrl: "https://github.com/Antoine444/face_anonymization",
+        githubUrl: "https://github.com/Antoine444/Bachelor-Project",
     },
     {
         title: "GoMeet",
