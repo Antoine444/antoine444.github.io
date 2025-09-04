@@ -49,8 +49,8 @@ const Projects = () => {
                                 interactive
                                 className="relative h-full flex flex-col justify-between"
                             >
-                                {/* Status Badge (top-right) */}
-                                <div className="absolute top-4 right-4">
+                                {/* Status Badge - absolute on larger screens only */}
+                                <div className="hidden md:block absolute top-4 right-4">
                                     <Badge variant={getStatusVariant(project.status)}>
                                         {project.status}
                                     </Badge>
@@ -64,12 +64,19 @@ const Projects = () => {
                                         </Badge>
                                     ))}
                                 </div>
+
+                                {/* Status badge on mobile - absolute bottom-right */}
+                                <div className="md:hidden absolute bottom-4 right-4">
+                                    <Badge variant={getStatusVariant(project.status)}>
+                                        {project.status}
+                                    </Badge>
+                                </div>
                             </Card>
                         ))}
                     </div>
                 </CardContainer>
 
-                    {/* More Projects Coming Soon */}
+                {/* More Projects Coming Soon */}
                 <CardContainer>
                     <div className="mt-16 text-center">
                         <Card

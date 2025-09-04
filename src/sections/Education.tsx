@@ -34,8 +34,8 @@ const Education = () => {
                                 variant="outline"
                                 interactive
                             >
-                                {/* Status badge at top-right corner */}
-                                <div className="absolute top-4 right-4">
+                                {/* Status badge - absolute on larger screens, inline on mobile */}
+                                <div className="hidden md:block absolute top-4 right-4">
                                     <Badge
                                         variant={edu.status === "Completed" ? "green" : "yellow"}
                                     >
@@ -49,24 +49,34 @@ const Education = () => {
                                         <MapPin className="h-4 w-4 text-red" />
                                         <span className="font-medium">{edu.school}</span>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <Calendar className="h-4 w-4 text-red" />
-                                        <span>{edu.period}</span>
+                                    <div className="flex items-center gap-2 md:gap-4">
+                                        <div className="flex items-center gap-2">
+                                            <Calendar className="h-4 w-4 text-red" />
+                                            <span>{edu.period}</span>
+                                        </div>
+                                        {/* Status badge on mobile - aligned with date */}
+                                        <div className="md:hidden">
+                                            <Badge
+                                                variant={edu.status === "Completed" ? "green" : "yellow"}
+                                            >
+                                                {edu.status}
+                                            </Badge>
+                                        </div>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <Award className="h-4 w-4 text-red" />
                                         <span>
-                                        GPA: <span className="font-semibold text-success">{edu.gpa}</span>
-                                    </span>
+                                            GPA: <span className="font-semibold text-success">{edu.gpa}</span>
+                                        </span>
                                     </div>
                                 </div>
 
                                 {/* Highlights */}
                                 <div>
                                     <h4 className="font-semibold mb-2">
-                                    <span className="bg-gradient-success bg-clip-text text-transparent">
-                                        Key Areas
-                                    </span>
+                                        <span className="bg-gradient-success bg-clip-text text-transparent">
+                                            Key Areas
+                                        </span>
                                     </h4>
                                     <div className="flex flex-wrap gap-2">
                                         {edu.highlights.map((highlight, idx) => (
