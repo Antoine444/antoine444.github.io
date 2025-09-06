@@ -2,13 +2,9 @@
 
 A modern and minimalistic personal portfolio showcasing my skills in **Computer Science** and **Financial Engineering**, built with **React**, **TypeScript**, and **Vite**.
 
----
-
 ##  Demo
 
 [Visit the live site →](https://antoine444.github.io)
-
----
 
 ##  Features
 
@@ -18,16 +14,12 @@ A modern and minimalistic personal portfolio showcasing my skills in **Computer 
 - Code linted and formatted with **ESLint**
 - Includes performance optimizations and best practices
 
----
-
 ##  Technologies Stack
 
 | Category         | Technology                              |
 |------------------|------------------------------------------|
 | Frontend         | React, TypeScript, Vite                 |
 | Linting & Tools  | ESLint (optionally with Type-Aware rules with `@vitejs/plugin-react-swc`) |
-
----
 
 ##  Get Started
 
