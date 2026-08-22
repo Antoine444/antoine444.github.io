@@ -4,16 +4,13 @@
     "target": "ES2023",
     "lib": ["ES2023"],
     "module": "ESNext",
+    "types": ["node"],
     "skipLibCheck": true,
-
-    /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,
-
-    /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -21,9 +18,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": [
-    "vite.config.ts",
-    "../../Library/Caches/JetBrains/WebStorm2025.2/javascript/typings/node/22.17.2/node_modules/@types/node/module.d.ts",
-    "../../Library/Caches/JetBrains/WebStorm2025.2/javascript/typings/node/22.17.2/node_modules/@types/node/module.d.ts"
-  ]
+  "include": ["vite.config.ts"]
 }

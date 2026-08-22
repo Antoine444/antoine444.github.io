@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .env
+
+# prerender intermediate (SSR bundle, removed after build)
+.ssr

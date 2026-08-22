@@ -1,0 +1,387 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Tokens.
+
+   Light is defined on bare :root. Dark is redefined twice: once under
+   prefers-color-scheme (guarded so an explicit light choice wins) and once
+   under [data-theme="dark"] (so the manual toggle wins in both directions).
+   No colour has its only definition inside a media query.
+
+   Chart marks and text carry SEPARATE accent tokens: marks are tuned to the
+   OKLCH lightness band the palette validator enforces, text to WCAG contrast.
+   They are different jobs and the same hex cannot serve both.
+--------------------------------------------------------------------------- */
+
+:root {
+    --paper: #FBFBF9;
+    --surface: #FFFFFF;
+    --surface-sunk: #F4F4F1;
+    --ink: #16181D;
+    --ink-muted: #565C66;
+    --ink-faint: #7C838E;
+    --rule: #E3E3DE;
+    --rule-strong: #C6C7C1;
+
+    --accent: #2647C9;          /* links, focus, active nav */
+    --accent-hover: #1B349C;
+    --accent-wash: #EDF0FC;
+
+    --mark-positive: #2C4BD8;   /* validated: light surface #FBFBF9 */
+    --mark-adverse: #B4610E;
+    --mark-neutral: #8A8F98;
+    --wash-positive: #E9EDFB;
+    --wash-adverse: #F8EFE3;
+    --wash-neutral: #F0F0EE;
+    --ink-positive: #24409F;    /* text-safe versions of the two poles */
+    --ink-adverse: #8A4A0A;
+
+    /* Ordinal ramp: before -> after is a sequence, so one hue, two steps. */
+    --ramp-1: #93A4E6;
+    --ramp-2: #2C4BD8;
+
+    --shadow-card: 0 1px 2px rgb(22 24 29 / 0.05);
+    --focus: 0 0 0 2px var(--paper), 0 0 0 4px var(--accent);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --paper: #101216;
+        --surface: #171A20;
+        --surface-sunk: #0B0D10;
+        --ink: #E9EAEE;
+        --ink-muted: #A2A9B4;
+        --ink-faint: #838A95;
+        --rule: #262A32;
+        --rule-strong: #3D434E;
+
+        --accent: #93A6FF;
+        --accent-hover: #B3C0FF;
+        --accent-wash: #1A1F33;
+
+        --mark-positive: #7289F1;   /* validated: dark surface #101216 */
+        --mark-adverse: #BE861E;
+        --mark-neutral: #767C86;
+        --wash-positive: #1B2140;
+        --wash-adverse: #2C2312;
+        --wash-neutral: #1C1F25;
+        --ink-positive: #9FB0FF;
+        --ink-adverse: #DFA84A;
+
+        --ramp-1: #414F84;
+        --ramp-2: #7289F1;
+
+        --shadow-card: none;
+        --focus: 0 0 0 2px var(--paper), 0 0 0 4px var(--accent);
+    }
+}
+
+:root[data-theme="dark"] {
+    --paper: #101216;
+    --surface: #171A20;
+    --surface-sunk: #0B0D10;
+    --ink: #E9EAEE;
+    --ink-muted: #A2A9B4;
+    --ink-faint: #838A95;
+    --rule: #262A32;
+    --rule-strong: #3D434E;
+
+    --accent: #93A6FF;
+    --accent-hover: #B3C0FF;
+    --accent-wash: #1A1F33;
+
+    --mark-positive: #7289F1;
+    --mark-adverse: #BE861E;
+    --mark-neutral: #767C86;
+    --wash-positive: #1B2140;
+    --wash-adverse: #2C2312;
+    --wash-neutral: #1C1F25;
+    --ink-positive: #9FB0FF;
+    --ink-adverse: #DFA84A;
+
+    --ramp-1: #414F84;
+    --ramp-2: #7289F1;
+
+    --shadow-card: none;
+    --focus: 0 0 0 2px var(--paper), 0 0 0 4px var(--accent);
+}
+
+@theme inline {
+    --color-paper: var(--paper);
+    --color-surface: var(--surface);
+    --color-surface-sunk: var(--surface-sunk);
+    --color-ink: var(--ink);
+    --color-ink-muted: var(--ink-muted);
+    --color-ink-faint: var(--ink-faint);
+    --color-rule: var(--rule);
+    --color-rule-strong: var(--rule-strong);
+    --color-accent: var(--accent);
+    --color-accent-wash: var(--accent-wash);
+    --color-positive: var(--mark-positive);
+    --color-adverse: var(--mark-adverse);
+
+    --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+}
+
+/* --------------------------------------------------------------------------- */
+
+@layer base {
+    * {
+        border-color: var(--rule);
+    }
+
+    html {
+        scroll-behavior: smooth;
+        /* Sticky header clearance for hash links. */
+        scroll-padding-top: 5rem;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        background-color: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    h1, h2, h3, h4 {
+        font-weight: 600;
+        line-height: 1.15;
+        letter-spacing: -0.021em;
+        text-wrap: balance;
+    }
+
+    a {
+        color: var(--accent);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.18em;
+    }
+    a:hover { color: var(--accent-hover); }
+
+    :focus-visible {
+        outline: none;
+        box-shadow: var(--focus);
+        border-radius: 2px;
+    }
+
+    ::selection {
+        background: var(--accent-wash);
+        color: var(--ink);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+}
+
+@layer components {
+    /* Page rhythm ------------------------------------------------------- */
+    .shell {
+        width: 100%;
+        max-width: 62rem;
+        margin-inline: auto;
+        padding-inline: 1.25rem;
+    }
+    @media (min-width: 768px) {
+        .shell { padding-inline: 2rem; }
+    }
+
+    .prose-measure { max-width: 68ch; }
+
+    /* The mono voice: identifiers, metadata, numbers, labels ------------- */
+    .mono {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: "tnum" 1;
+    }
+
+    /* Repo paths and symbol names have no spaces to break at. The label is
+       often the .mono element itself, not a descendant, so match both. */
+    .mono a,
+    a.mono,
+    dd.mono,
+    .rail-label,
+    .breakable {
+        overflow-wrap: anywhere;
+    }
+
+    .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+    }
+
+    /* Section head: an eyebrow with a rule running out to the margin. */
+    .section-head {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    .section-head::after {
+        content: "";
+        height: 1px;
+        background: var(--rule);
+    }
+
+    /* Metadata rail: dates and venue in mono, left of the content. ------- */
+    .rail {
+        display: grid;
+        gap: 0.35rem 1.5rem;
+        grid-template-columns: 1fr;
+    }
+    @media (min-width: 800px) {
+        .rail {
+            grid-template-columns: 8.5rem 1fr;
+        }
+    }
+    .rail-label {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        letter-spacing: 0.02em;
+        color: var(--ink-faint);
+        padding-top: 0.2rem;
+    }
+
+    /* Claim: a figure and the condition under which it holds. ------------
+       The condition is not a footnote. It sits inside the same box, on the
+       same hairline grid, and it is never dropped at small sizes. */
+    .claim {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--rule);
+        border-left-width: 3px;
+        border-radius: 3px;
+        background: var(--surface);
+        padding: 0.75rem 0.875rem 0;
+        min-width: 0;
+    }
+    .claim-positive { border-left-color: var(--mark-positive); }
+    .claim-adverse  { border-left-color: var(--mark-adverse); }
+    .claim-neutral  { border-left-color: var(--mark-neutral); }
+
+    .claim-figure {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 1.5rem;
+        font-weight: 600;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        overflow-wrap: anywhere;
+    }
+    .claim-positive .claim-figure { color: var(--ink-positive); }
+    .claim-adverse  .claim-figure { color: var(--ink-adverse); }
+    .claim-neutral  .claim-figure { color: var(--ink); }
+
+    .claim-metric {
+        font-size: 0.875rem;
+        line-height: 1.4;
+        color: var(--ink);
+        margin-top: 0.25rem;
+    }
+    .claim-condition {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        line-height: 1.5;
+        color: var(--ink-muted);
+        border-top: 1px solid var(--rule);
+        margin-top: 0.7rem;
+        padding: 0.55rem 0 0.75rem;
+    }
+    .claim-condition::before {
+        content: "only when ";
+        color: var(--ink-faint);
+    }
+    .claim-adverse .claim-condition::before { content: "when "; }
+    .claim-neutral .claim-condition::before { content: "note "; }
+
+    /* Cards and rows ----------------------------------------------------- */
+    .card {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        box-shadow: var(--shadow-card);
+    }
+
+    .tag {
+        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 0.6875rem;
+        letter-spacing: 0.02em;
+        color: var(--ink-muted);
+        background: var(--surface-sunk);
+        border: 1px solid var(--rule);
+        border-radius: 2px;
+        padding: 0.1rem 0.4rem;
+        overflow-wrap: anywhere;
+    }
+
+    /* Anything that could overflow gets its own scroll container. */
+    .scroll-x {
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        max-width: 100%;
+    }
+
+    .link-arrow::after {
+        content: " \2197";
+        font-size: 0.85em;
+        display: inline-block;
+    }
+
+    /* Skip link ---------------------------------------------------------- */
+    .skip {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        z-index: 100;
+    }
+    .skip:focus {
+        left: 0.5rem;
+        top: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        background: var(--surface);
+        border: 1px solid var(--accent);
+        border-radius: 3px;
+    }
+
+    /* Prose inside project bodies ---------------------------------------- */
+    .body-prose > * + * { margin-top: 1rem; }
+    .body-prose p { max-width: 68ch; color: var(--ink); }
+    .body-prose ul { max-width: 68ch; }
+    .body-prose li { position: relative; padding-left: 1.1rem; }
+    .body-prose li + li { margin-top: 0.5rem; }
+    .body-prose li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.72em;
+        width: 0.4rem;
+        height: 1px;
+        background: var(--rule-strong);
+    }
+    .body-prose code {
+        font-family: var(--font-mono);
+        font-size: 0.875em;
+        background: var(--surface-sunk);
+        border: 1px solid var(--rule);
+        border-radius: 2px;
+        padding: 0.05em 0.3em;
+    }
+    .body-prose strong { font-weight: 650; }
+}

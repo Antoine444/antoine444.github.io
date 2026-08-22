@@ -1,13 +1,28 @@
 <!doctype html>
-<html lang="en" class="bg-white dark:bg-gray-950 scheme-light dark:scheme-dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/AG.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Antoine Garin - Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/AG.png" />
+    <link rel="canonical" href="https://antoine444.github.io/" />
+    <title>Antoine Garin</title>
+    <meta name="description" content="Antoine Garin — MSc Computer Science at EPFL. Concurrent and distributed systems, machine learning, and quantitative finance." />
+    <script>
+      // Set the theme before first paint so there is no flash.
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.setAttribute('data-theme', stored);
+          }
+        } catch (e) { /* private mode: fall back to prefers-color-scheme */ }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/entry-client.tsx"></script>
   </body>
 </html>

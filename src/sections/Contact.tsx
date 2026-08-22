@@ -1,236 +1,186 @@
-import Card, {CardContainer} from "../components/Card.tsx";
-import { Mail } from "lucide-react";
-import { socialLinks } from "../constants";
-import emailjs from "@emailjs/browser";
-import React, { useRef, useState } from "react";
+import emailjs from '@emailjs/browser'
+import { useRef, useState } from 'react'
+import { links, profile } from '@/content/profile'
+import { SOCIALS } from '@/components/socials'
+import { SectionHead } from './SectionHead'
 
-export const Contact = () => {
-    const formRef = useRef<HTMLFormElement | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
-    const [form, setForm] = useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        subject: "",
-        message: "",
-    });
+const SERVICE_ID = import.meta.env.VITE_APP_EMAILJS_SERVICE_ID as string | undefined
+const TEMPLATE_ID = import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID as string | undefined
+const PUBLIC_KEY = import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY as string | undefined
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setForm({ ...form, [name]: value });
-    };
+type Status = 'idle' | 'sending' | 'sent' | 'error' | 'throttled'
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setLoading(true);
-        setSubmitStatus(null);
+const FIELD =
+    'mono w-full rounded-sm border border-rule bg-surface px-3 py-2 text-sm ' +
+    'placeholder:text-ink-faint focus-visible:border-accent'
 
-        // Check if formRef.current is not null before using it
-        if (!formRef.current) {
-            setSubmitStatus('error');
-            setLoading(false);
-            return;
+export function Contact() {
+    const formRef = useRef<HTMLFormElement>(null)
+    const [status, setStatus] = useState<Status>('idle')
+    const [detail, setDetail] = useState('')
+
+    const configured = Boolean(SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY)
+
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+        const form = formRef.current
+        if (!form) return
+
+        // Honeypot: a real person never fills a field they cannot see.
+        if ((form.elements.namedItem('website') as HTMLInputElement | null)?.value) {
+            setStatus('sent')
+            form.reset()
+            return
         }
 
+        setStatus('sending')
+        setDetail('')
         try {
-            await emailjs.sendForm(
-                import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-                import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
-                formRef.current,
-                import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
-            );
-
-            // Success - reset form
-            setForm({
-                firstName: "",
-                lastName: "",
-                email: "",
-                subject: "",
-                message: "",
-            });
-            setSubmitStatus('success');
-        } catch (error) {
-            console.error("EmailJS Error:", error);
-            setSubmitStatus('error');
-        } finally {
-            setLoading(false);
+            await emailjs.sendForm(SERVICE_ID!, TEMPLATE_ID!, form, {
+                publicKey: PUBLIC_KEY!,
+                // Client-side friction only — a direct POST to the API bypasses both.
+                // The controls that actually hold are the domain allowlist and the
+                // CAPTCHA configured server-side on the EmailJS template.
+                blockHeadless: true,
+                limitRate: { throttle: 15000 },
+            })
+            setStatus('sent')
+            form.reset()
+        } catch (err: unknown) {
+            const e = err as { status?: number; text?: string }
+            if (e?.status === 429) {
+                setStatus('throttled')
+            } else {
+                setStatus('error')
+                setDetail(e?.text ? `${e.text}` : '')
+            }
         }
-    };
+    }
 
     return (
-        <section id="contact" className="py-20 bg-background">
-            <div className="container mx-auto px-6">
-                {/* Section header */}
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                        <span className="bg-gradient-red bg-clip-text text-transparent">
-                            Let's Connect
-                        </span>
-                    </h2>
-                    <p className="text-xl text-slate-400 max-w-3xl mx-auto">
-                        I'm always open to discussing new opportunities, collaborations,
-                        or simply connecting with fellow tech and finance enthusiasts.
+        <section className="shell pt-16" aria-labelledby="contact">
+            <SectionHead label="Contact" id="contact" />
+
+            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem]">
+                <div>
+                    <p className="prose-measure text-sm leading-relaxed">
+                        Open to internships and graduate roles in systems, machine learning and
+                        quantitative research. The form below reaches my inbox; if you would rather
+                        not use it, the address is right there.
                     </p>
+
+                    <form ref={formRef} onSubmit={handleSubmit} className="mt-5 grid gap-3">
+                        <div className="grid gap-3 sm:grid-cols-2">
+                            <label className="grid gap-1.5">
+                                <span className="eyebrow">First name</span>
+                                <input name="firstName" required maxLength={80} autoComplete="given-name"
+                                       className={FIELD} />
+                            </label>
+                            <label className="grid gap-1.5">
+                                <span className="eyebrow">Last name</span>
+                                <input name="lastName" required maxLength={80} autoComplete="family-name"
+                                       className={FIELD} />
+                            </label>
+                        </div>
+                        <label className="grid gap-1.5">
+                            <span className="eyebrow">Your email</span>
+                            <input type="email" name="email" required maxLength={160}
+                                   autoComplete="email" className={FIELD} />
+                        </label>
+                        <label className="grid gap-1.5">
+                            <span className="eyebrow">Subject</span>
+                            <input name="subject" required maxLength={140} className={FIELD} />
+                        </label>
+                        <label className="grid gap-1.5">
+                            <span className="eyebrow">Message</span>
+                            <textarea name="message" required maxLength={4000} rows={6}
+                                      className={`${FIELD} resize-y`} />
+                        </label>
+
+                        {/* Honeypot — hidden from sight and from assistive technology. */}
+                        <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px' }}>
+                            <label>
+                                Website
+                                <input name="website" tabIndex={-1} autoComplete="off" />
+                            </label>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-4">
+                            <button
+                                type="submit"
+                                disabled={status === 'sending' || !configured}
+                                className="mono rounded-sm px-4 py-2 text-sm font-medium
+                                           transition-opacity disabled:opacity-50"
+                                style={{ background: 'var(--accent)', color: 'var(--paper)' }}
+                            >
+                                {status === 'sending' ? 'Sending…' : 'Send message'}
+                            </button>
+                            <a href={links.email} className="mono text-xs">
+                                or email {profile.email} directly
+                            </a>
+                        </div>
+
+                        {/* Every failure says what happened and what to do instead. */}
+                        <p role="status" aria-live="polite" className="mono min-h-5 text-xs">
+                            {!configured && (
+                                <span style={{ color: 'var(--ink-adverse)' }}>
+                                    The form is not configured in this build. Email{' '}
+                                    <a href={links.email}>{profile.email}</a>.
+                                </span>
+                            )}
+                            {status === 'sent' && (
+                                <span style={{ color: 'var(--ink-positive)' }}>
+                                    Message sent. I will reply to the address you gave.
+                                </span>
+                            )}
+                            {status === 'throttled' && (
+                                <span style={{ color: 'var(--ink-adverse)' }}>
+                                    Too many sends in a short window. Wait a moment, or email{' '}
+                                    <a href={links.email}>{profile.email}</a>.
+                                </span>
+                            )}
+                            {status === 'error' && (
+                                <span style={{ color: 'var(--ink-adverse)' }}>
+                                    The message did not send{detail ? ` (${detail})` : ''}. Email{' '}
+                                    <a href={links.email}>{profile.email}</a> instead.
+                                </span>
+                            )}
+                        </p>
+                    </form>
                 </div>
 
-                <CardContainer>
-                    <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-                        {/* Contact Form Card */}
-                        <Card
-                            title="Send a Message"
-                            description="Fill out the form below and I'll get back to you as soon as possible."
-                            titleIcon={<Mail className="h-6 w-6 text-red" />}
-                            variant="outline"
-                            interactive
-                        >
-                            <form ref={formRef} className="space-y-6" onSubmit={handleSubmit}>
-                                {/* Status Messages */}
-                                {submitStatus === 'success' && (
-                                    <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400">
-                                        Thank you! Your message has been sent successfully.
-                                    </div>
-                                )}
-                                {submitStatus === 'error' && (
-                                    <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400">
-                                        Sorry, there was an error sending your message. Please try again.
-                                    </div>
-                                )}
-
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="text-sm font-medium text-foreground mb-2 block">
-                                            First Name
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="firstName"
-                                            placeholder="John"
-                                            value={form.firstName}
-                                            onChange={handleChange}
-                                            required
-                                            className="w-full rounded-lg border border-border bg-muted px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="text-sm font-medium text-foreground mb-2 block">
-                                            Last Name
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="lastName"
-                                            placeholder="Doe"
-                                            value={form.lastName}
-                                            onChange={handleChange}
-                                            required
-                                            className="w-full rounded-lg border border-border bg-muted px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="text-sm font-medium text-foreground mb-2 block">
-                                        Email
-                                    </label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        placeholder="john.doe@example.com"
-                                        value={form.email}
-                                        onChange={handleChange}
-                                        required
-                                        className="w-full rounded-lg border border-border bg-muted px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="text-sm font-medium text-foreground mb-2 block">
-                                        Subject
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="subject"
-                                        placeholder="Let's discuss an opportunity"
-                                        value={form.subject}
-                                        onChange={handleChange}
-                                        required
-                                        className="w-full rounded-lg border border-border bg-muted px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="text-sm font-medium text-foreground mb-2 block">
-                                        Message
-                                    </label>
-                                    <textarea
-                                        name="message"
-                                        placeholder="Tell me about your project or opportunity..."
-                                        value={form.message}
-                                        onChange={handleChange}
-                                        required
-                                        className="w-full rounded-lg border border-border bg-muted px-3 py-2 text-sm min-h-[8rem] focus:outline-none focus:ring-2 focus:ring-accent"
-                                    />
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="btn-card-modern group/btn w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                <aside className="card h-fit p-5">
+                    <h3 className="eyebrow">Elsewhere</h3>
+                    <ul className="mt-3 space-y-2.5">
+                        {SOCIALS.map(({ href, label, Icon }) => (
+                            <li key={label}>
+                                <a
+                                    href={href}
+                                    className="mono flex items-center gap-2.5 text-sm no-underline hover:underline"
+                                    {...(href.startsWith('http')
+                                        ? { target: '_blank', rel: 'noopener noreferrer' }
+                                        : {})}
                                 >
-                                    <span className="btn-content">
-                                        <span className="btn-icon">
-                                            <Mail className="h-5 w-5" />
-                                        </span>
-                                        <span className="btn-text">
-                                            {loading ? 'Sending...' : 'Send Message'}
-                                        </span>
-                                    </span>
-                                    <div className="btn-glow"></div>
-                                </button>
-                            </form>
-                        </Card>
+                                    <Icon width={16} height={16} />
+                                    {label}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                    <p className="mono mt-4 border-t border-rule pt-3 text-xs"
+                       style={{ color: 'var(--ink-muted)' }}>
+                        {profile.location}
+                        <br />
+                        {profile.citizenship}
+                    </p>
+                </aside>
+            </div>
 
-                        {/* Right column with cards */}
-                        <div className="space-y-8">
-                            {/* Social Links */}
-                            <Card
-                                title="Follow Me"
-                                description="Stay updated with my latest projects and insights into the world of technology and finance."
-                                variant="glass"
-                                interactive
-                            >
-                                <div className="flex space-x-6 justify-center">
-                                    {socialLinks.map((link, index) => (
-                                        <a
-                                            key={index}
-                                            href={link.href}
-                                            aria-label={link.label}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className={`p-2 rounded-2xl hover:bg-white/10 cursor-pointer transition
-                                                        transform duration-300 hover:scale-110 hover:-translate-y-1 
-                                                        ${link.label === "GitHub" ? "hover:-rotate-24" : "hover:rotate-24"}`}
-                                        >
-                                            <link.icon className="size-6" />
-                                        </a>
-                                    ))}
-                                </div>
-                            </Card>
-
-                            {/* Open to Opportunities */}
-                            <Card
-                                title="Open to Opportunities"
-                                description="Currently seeking internships and entry-level positions in fintech, software development, or data science."
-                                buttonText="Download CV"
-                                buttonHref="/files/CV.pdf"
-                                buttonDownload="CV.pdf"
-                                variant="glass"
-                                interactive
-                            />
-                        </div>
-                    </div>
-                </CardContainer>
+            {/* Preserves the previous site's #about anchor. */}
+            <div id="about" className="mt-16 border-t border-rule pt-6">
+                <h2 className="eyebrow">Beyond work</h2>
+                <p className="prose-measure mt-2 text-sm leading-relaxed">{profile.interests}</p>
             </div>
         </section>
-    );
-};
+    )
+}
