@@ -14,7 +14,7 @@ export const siteUrl = SITE
 export const routes: RouteMeta[] = [
     {
         path: '/',
-        title: 'Antoine Garin',
+        title: 'Antoine Garin - Portfolio',
         description:
             'MSc Computer Science at EPFL, graduating November 2027. Concurrent and distributed systems, machine learning post-training, and quantitative finance.',
     },

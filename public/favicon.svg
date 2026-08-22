@@ -1,13 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Antoine Garin">
   <title>Antoine Garin</title>
-  <!-- The versioned lock word reduced to a mark: a wide field, one small bit.
-       The tab strip is light or dark independently of the page, so the mark
-       inverts rather than picking one and hoping. -->
+  <!-- AG set in Space Grotesk, the site's display face, converted to outlines
+       so it stays crisp at 16px. The tab strip is light or dark independently
+       of the page, so the mark inverts rather than picking one and hoping. -->
   <style>
     svg { --bg: #0B6E80; --fg: #FFFFFF; }
     @media (prefers-color-scheme: dark) { svg { --bg: #22D3EE; --fg: #08111A; } }
   </style>
   <rect width="32" height="32" rx="7" fill="var(--bg)"/>
-  <rect x="6" y="12" width="15" height="8" rx="1.5" fill="var(--fg)"/>
-  <rect x="23" y="12" width="4" height="8" rx="1.5" fill="var(--fg)" opacity="0.62"/>
+  <g transform="translate(4.667 22.471) scale(0.01849 -0.01849)" fill="var(--fg)">
+    <path d="M18 0 202 700H432L616 0H480L442 154H192L154 0ZM223 276H411L326 617H308Z"/>
+    <path transform="translate(606 0)" d="M308 -14Q236 -14 177.5 18.5Q119 51 84.5 113.5Q50 176 50 266V434Q50 569 126.0 641.5Q202 714 332 714Q461 714 531.5 645.5Q602 577 602 460V456H472V464Q472 501 456.5 531.0Q441 561 410.0 578.5Q379 596 332 596Q262 596 222.0 553.0Q182 510 182 436V264Q182 191 222.0 146.5Q262 102 334 102Q406 102 439.0 140.0Q472 178 472 236V246H306V358H602V0H480V67H462Q455 50 439.5 31.0Q424 12 393.0 -1.0Q362 -14 308 -14Z"/>
+  </g>
 </svg>
