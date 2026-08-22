@@ -303,12 +303,9 @@
         margin-top: 0.7rem;
         padding: 0.55rem 0 0.75rem;
     }
-    .claim-condition::before {
-        content: "only when ";
-        color: var(--ink-faint);
-    }
-    .claim-adverse .claim-condition::before { content: "when "; }
-    .claim-neutral .claim-condition::before { content: "note "; }
+    /* No injected prefix: a qualifier reads as a qualifier from its position
+       under the rule and its muted mono voice. Injected words cannot be
+       grammatical for every condition, and they do not survive copy-paste. */
 
     /* Cards and rows ----------------------------------------------------- */
     .card {
