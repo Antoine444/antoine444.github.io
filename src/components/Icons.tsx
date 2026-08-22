@@ -63,3 +63,37 @@ export const MonitorIcon = (p: IconProps) => (
         <path d="M8.5 20.5h7M12 17v3.5" />
     </svg>
 )
+
+/* ---------------------------------------------------------------------------
+   Field marks. One per through-line field, drawn from what the field actually
+   makes: layers for systems, a small network for machine learning, a payoff
+   curve for quantitative finance. Decorative — the field is named beside them.
+--------------------------------------------------------------------------- */
+
+export const SystemsIcon = (p: IconProps) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6}
+         strokeLinecap="round" strokeLinejoin="round" {...base(p)}>
+        <path d="M12 3.5 21 8l-9 4.5L3 8z" />
+        <path d="m3 12 9 4.5L21 12" />
+        <path d="m3 16 9 4.5L21 16" />
+    </svg>
+)
+
+export const MachineLearningIcon = (p: IconProps) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6}
+         strokeLinecap="round" strokeLinejoin="round" {...base(p)}>
+        <circle cx="5" cy="6" r="2.1" />
+        <circle cx="5" cy="18" r="2.1" />
+        <circle cx="13" cy="12" r="2.1" />
+        <circle cx="20" cy="12" r="1.7" />
+        <path d="M6.8 7.2 11.2 11M6.8 16.8 11.2 13M15.1 12h3.2" />
+    </svg>
+)
+
+export const QuantIcon = (p: IconProps) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6}
+         strokeLinecap="round" strokeLinejoin="round" {...base(p)}>
+        <path d="M3.5 3.5v17h17" />
+        <path d="M7 16.5c2.6 0 3.4-8 6-8s3.4 4.5 5.5 4.5" />
+    </svg>
+)

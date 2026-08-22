@@ -1,4 +1,4 @@
-import { Hero, ThroughLine } from '@/sections/Hero'
+import { CurrentWork, Hero, ThroughLine } from '@/sections/Hero'
 import { Work } from '@/sections/Work'
 import { Experience } from '@/sections/Experience'
 import { Education } from '@/sections/Education'
@@ -9,6 +9,7 @@ export default function Home() {
     return (
         <>
             <Hero />
+            <CurrentWork />
             <ThroughLine />
             <Work />
             <Experience />

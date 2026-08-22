@@ -1,15 +1,20 @@
 import { skills } from '@/content/skills'
 import { SectionHead } from './SectionHead'
 
+/**
+ * The one place on the page where high density is the right answer: a single
+ * card holding every group, so the whole inventory reads as one object.
+ */
 export function Skills() {
     return (
-        <section className="shell pt-16" aria-labelledby="skills">
+        <section className="shell section" aria-labelledby="skills">
             <SectionHead label="Skills" id="skills" />
-            <dl className="overflow-hidden rounded border border-rule">
+            <dl className="card reveal overflow-hidden">
                 {skills.map((s, i) => (
                     <div
                         key={s.group}
-                        className={`rail bg-surface p-4 sm:px-5 ${i > 0 ? 'border-t border-rule' : ''}`}
+                        className={`rail px-5 py-4 sm:px-6 ${i > 0 ? 'border-t' : ''}`}
+                        style={i > 0 ? { borderColor: 'var(--rule)' } : undefined}
                     >
                         <dt className="rail-label">{s.group}</dt>
                         <dd>

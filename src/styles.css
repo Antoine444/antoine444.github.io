@@ -6,7 +6,18 @@
    Light is defined on bare :root. Dark is redefined twice: once under
    prefers-color-scheme (guarded so an explicit light choice wins) and once
    under [data-theme="dark"] (so the manual toggle wins in both directions).
-   No colour has its only definition inside a media query.
+   No colour has its only definition inside a media query, and the two dark
+   blocks are identical — check-contrast.mjs fails the build if they drift.
+
+   The site is designed dark: the inline script in index.html sets
+   data-theme="dark" when no choice is on record, so the near-black palette
+   is what a first-time visitor sees. Light is a full counterpart, not a
+   fallback.
+
+   Cyan and amber are the two poles. That pair carries more hue separation
+   than the blue/amber it replaces, which matters because the Claim component
+   and six diagrams encode "holds" against "does not hold" with it — and
+   never with colour alone.
 
    Chart marks and text carry SEPARATE accent tokens: marks are tuned to the
    OKLCH lightness band the palette validator enforces, text to WCAG contrast.
@@ -14,96 +25,210 @@
 --------------------------------------------------------------------------- */
 
 :root {
-    --paper: #FBFBF9;
-    --surface: #FFFFFF;
-    --surface-sunk: #F4F4F1;
-    --ink: #16181D;
-    --ink-muted: #565C66;
-    --ink-faint: #7C838E;
-    --rule: #E3E3DE;
-    --rule-strong: #C6C7C1;
+    --paper: #EBEEF3;
+    /* Cards are translucent. This is the colour --glass composites to over
+       --paper, which is what lets the contrast gate keep checking a solid hex
+       while the rendered card is real glass. See --glass below. */
+    --surface: #FAFBFC;
+    --surface-sunk: #DFE4EB;
+    --ink: #0D1117;
+    --ink-muted: #4A5460;
+    /* Used for 12px rail labels and venue lines, which are body text however
+       faint they look — so this clears 4.5:1 on the page, not the 3:1 the
+       token's name (and the gate) would settle for. */
+    --ink-faint: #5C6675;
+    --rule: #C2C9D4;
+    --rule-strong: #8B94A2;
 
-    --accent: #2647C9;          /* links, focus, active nav */
-    --accent-hover: #1B349C;
-    --accent-wash: #EDF0FC;
+    --accent: #0B6E80;          /* links, focus, active nav */
+    --accent-hover: #084F5D;
+    --accent-wash: #D3EBF1;
 
-    --mark-positive: #2C4BD8;   /* validated: light surface #FBFBF9 */
+    --mark-positive: #0E7C90;   /* validated: light page #EBEEF3 */
     --mark-adverse: #B4610E;
-    --mark-neutral: #8A8F98;
-    --wash-positive: #E9EDFB;
-    --wash-adverse: #F8EFE3;
-    --wash-neutral: #F0F0EE;
-    --ink-positive: #24409F;    /* text-safe versions of the two poles */
+    --mark-neutral: #7E838C;
+    --wash-positive: #DBEFF4;
+    --wash-adverse: #F6EBDC;
+    --wash-neutral: #E5E8EF;
+    /* Same value as --accent on purpose: a link and a positive figure sitting
+       in the same card as two near-identical cyans just read as sloppy. */
+    --ink-positive: #0B6E80;
     --ink-adverse: #8A4A0A;
 
     /* Ordinal ramp: before -> after is a sequence, so one hue, two steps. */
-    --ramp-1: #93A4E6;
-    --ramp-2: #2C4BD8;
+    --ramp-1: #78BCCB;
+    --ramp-2: #0E7C90;
 
-    --shadow-card: 0 1px 2px rgb(22 24 29 / 0.05);
-    --focus: 0 0 0 2px var(--paper), 0 0 0 4px var(--accent);
+    /* Glass and elevation. --glass at its own alpha over --paper equals
+       --surface exactly,
+       solved rather than eyeballed, which is what keeps the contrast gate
+       meaningful on a translucent card. --glow-* is capped where it is because
+       a stronger ambient tint pushes ink-faint on glass below 4.5:1 — dark's
+       ink-faint was lifted to #8794A6 precisely to buy this much glow. */
+    --glass: rgb(255 255 255 / 0.75);
+    --glass-blur: 14px;
+    --glow-a: rgb(11 110 128 / 0.16);
+    --glow-b: rgb(49 46 129 / 0.14);
+    --glow-card: rgb(11 110 128 / 0.10);
+
+    --shadow-card: 0 1px 1px rgb(13 17 23 / 0.05), 0 3px 10px -4px rgb(13 17 23 / 0.10);
+    --shadow-lift: 0 0 0 1px rgb(11 110 128 / 0.45),
+                   0 20px 50px -12px rgb(11 110 128 / 0.22),
+                   0 8px 20px -8px rgb(13 17 23 / 0.16);
+    --shadow-header: 0 1px 0 rgb(13 17 23 / 0.05);
+
+    /* Type scale. One big step at the top so something on the page is finally
+       allowed to be large, then clear intervals down to the mono voice. */
+    --fs-display: clamp(2.625rem, 8.6vw, 4.75rem);
+    --fs-h1: clamp(1.875rem, 4.8vw, 3.125rem);
+    --fs-lede: clamp(1.0625rem, 1.9vw, 1.375rem);
+    --fs-h2: clamp(1.5rem, 3.1vw, 2.125rem);
+    --fs-h3: clamp(1.125rem, 1.8vw, 1.375rem);
+    --fs-figure: 1.4375rem;
+    --fs-figure-lead: clamp(1.625rem, 3.4vw, 2.125rem);
 }
 
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-        --paper: #101216;
-        --surface: #171A20;
-        --surface-sunk: #0B0D10;
-        --ink: #E9EAEE;
-        --ink-muted: #A2A9B4;
-        --ink-faint: #838A95;
-        --rule: #262A32;
-        --rule-strong: #3D434E;
+        --paper: #080B12;
+        --surface: #161D28;
+        --surface-sunk: #0E141D;
+        --ink: #E8EDF5;
+        --ink-muted: #98A3B4;
+        --ink-faint: #8794A6;
+        --rule: #26313F;
+        --rule-strong: #414E61;
 
-        --accent: #93A6FF;
-        --accent-hover: #B3C0FF;
-        --accent-wash: #1A1F33;
+        --accent: #22D3EE;
+        --accent-hover: #67E8F9;
+        --accent-wash: #0C2A33;
 
-        --mark-positive: #7289F1;   /* validated: dark surface #101216 */
-        --mark-adverse: #BE861E;
-        --mark-neutral: #767C86;
-        --wash-positive: #1B2140;
-        --wash-adverse: #2C2312;
-        --wash-neutral: #1C1F25;
-        --ink-positive: #9FB0FF;
-        --ink-adverse: #DFA84A;
+        --mark-positive: #22D3EE;   /* validated: dark page #080B12 */
+        --mark-adverse: #F0A93B;
+        --mark-neutral: #7C889A;
+        --wash-positive: #0C2830;
+        --wash-adverse: #2E2109;
+        --wash-neutral: #101720;
+        --ink-positive: #22D3EE;
+        --ink-adverse: #F5B95C;
 
-        --ramp-1: #414F84;
-        --ramp-2: #7289F1;
+        --ramp-1: #1E5A66;
+        --ramp-2: #22D3EE;
 
-        --shadow-card: none;
-        --focus: 0 0 0 2px var(--paper), 0 0 0 4px var(--accent);
+        --glass: rgb(33 44 58 / 0.55);
+        --glass-blur: 14px;
+        --glow-a: rgb(34 211 238 / 0.14);
+        --glow-b: rgb(99 102 241 / 0.13);
+        --glow-card: rgb(34 211 238 / 0.10);
+
+        --shadow-card: 0 0 0 1px rgb(255 255 255 / 0.025), 0 6px 20px -8px rgb(0 0 0 / 0.85);
+        --shadow-lift: 0 0 0 1px rgb(34 211 238 / 0.55),
+                       0 20px 50px -12px rgb(34 211 238 / 0.20),
+                       0 14px 30px -14px rgb(0 0 0 / 0.9);
+        --shadow-header: 0 1px 0 rgb(0 0 0 / 0.6);
     }
 }
 
 :root[data-theme="dark"] {
-    --paper: #101216;
-    --surface: #171A20;
-    --surface-sunk: #0B0D10;
-    --ink: #E9EAEE;
-    --ink-muted: #A2A9B4;
-    --ink-faint: #838A95;
-    --rule: #262A32;
-    --rule-strong: #3D434E;
+    --paper: #080B12;
+    --surface: #161D28;
+    --surface-sunk: #0E141D;
+    --ink: #E8EDF5;
+    --ink-muted: #98A3B4;
+    --ink-faint: #8794A6;
+    --rule: #26313F;
+    --rule-strong: #414E61;
 
-    --accent: #93A6FF;
-    --accent-hover: #B3C0FF;
-    --accent-wash: #1A1F33;
+    --accent: #22D3EE;
+    --accent-hover: #67E8F9;
+    --accent-wash: #0C2A33;
 
-    --mark-positive: #7289F1;
-    --mark-adverse: #BE861E;
-    --mark-neutral: #767C86;
-    --wash-positive: #1B2140;
-    --wash-adverse: #2C2312;
-    --wash-neutral: #1C1F25;
-    --ink-positive: #9FB0FF;
-    --ink-adverse: #DFA84A;
+    --mark-positive: #22D3EE;
+    --mark-adverse: #F0A93B;
+    --mark-neutral: #7C889A;
+    --wash-positive: #0C2830;
+    --wash-adverse: #2E2109;
+    --wash-neutral: #101720;
+    --ink-positive: #22D3EE;
+    --ink-adverse: #F5B95C;
 
-    --ramp-1: #414F84;
-    --ramp-2: #7289F1;
+    --ramp-1: #1E5A66;
+    --ramp-2: #22D3EE;
 
-    --shadow-card: none;
-    --focus: 0 0 0 2px var(--paper), 0 0 0 4px var(--accent);
+    --glass: rgb(33 44 58 / 0.55);
+    --glass-blur: 14px;
+    --glow-a: rgb(34 211 238 / 0.14);
+    --glow-b: rgb(99 102 241 / 0.13);
+    --glow-card: rgb(34 211 238 / 0.10);
+
+    --shadow-card: 0 0 0 1px rgb(255 255 255 / 0.025), 0 6px 20px -8px rgb(0 0 0 / 0.85);
+    --shadow-lift: 0 0 0 1px rgb(34 211 238 / 0.55),
+                   0 20px 50px -12px rgb(34 211 238 / 0.20),
+                   0 14px 30px -14px rgb(0 0 0 / 0.9);
+    --shadow-header: 0 1px 0 rgb(0 0 0 / 0.6);
+}
+
+/* ---------------------------------------------------------------------------
+   Typefaces.
+
+   Self-hosted, subset by hand, OFL-licensed (licences ship in public/fonts).
+   No CDN and no render-blocking stylesheet: both files are preloaded from
+   index.html and declared font-display: swap.
+
+   The subset is latin + general punctuation + super/subscripts + arrows +
+   math operators. That last part is not padding — the site renders 2^16 as
+   `2¹⁶`, CVaR₉₅ with real subscripts, and `≥ 5k paths`, and Google's stock
+   `latin` subset carries none of those. A font missing them would render a
+   single claim figure in two different faces.
+
+   Each face is paired with a metric-matched fallback: `size-adjust` was
+   measured in a browser (Space Grotesk sets 1.095x the width of Arial for the
+   same string; JetBrains Mono and Courier New agree to within 0.02%), and the
+   ascent/descent overrides are the real face's hhea metrics divided by that
+   ratio. The fallback therefore occupies exactly the same space, so the swap
+   when the webfont lands costs no reflow.
+--------------------------------------------------------------------------- */
+
+@font-face {
+    font-family: "Space Grotesk";
+    src: url("/fonts/space-grotesk-latin.woff2") format("woff2");
+    font-weight: 400 700;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+2070-209F,
+                   U+2190-21FF, U+2200-22FF, U+20AC, U+2122, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url("/fonts/jetbrains-mono-latin.woff2") format("woff2");
+    font-weight: 400 700;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+2070-209F,
+                   U+2190-21FF, U+2200-22FF, U+20AC, U+2122, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: "Space Grotesk Fallback";
+    src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+    size-adjust: 109.50%;
+    ascent-override: 89.86%;
+    descent-override: 26.67%;
+    line-gap-override: 0%;
+}
+
+@font-face {
+    font-family: "JetBrains Mono Fallback";
+    src: local("Courier New"), local("Liberation Mono"), local("DejaVu Sans Mono");
+    /* Measured at 0.9998 — i.e. the two faces already share an advance width.
+       Pinning it to exactly 100% means the reserved width of the rotating line
+       is identical before and after the swap, which is the difference between
+       one sub-pixel layout shift and none. */
+    size-adjust: 100%;
+    ascent-override: 102.00%;
+    descent-override: 30.00%;
+    line-gap-override: 0%;
 }
 
 @theme inline {
@@ -120,10 +245,12 @@
     --color-positive: var(--mark-positive);
     --color-adverse: var(--mark-adverse);
 
-    --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-        "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-        "Liberation Mono", "Courier New", monospace;
+    --font-sans: "Space Grotesk", "Space Grotesk Fallback", ui-sans-serif,
+        system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+        "Noto Sans", sans-serif;
+    --font-mono: "JetBrains Mono", "JetBrains Mono Fallback", ui-monospace,
+        SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+        "Courier New", monospace;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -134,20 +261,54 @@
     }
 
     html {
+        /* The page colour lives here, not on body, so the ambient glows on
+           body's pseudo-elements have something to sit in front of. */
+        background-color: var(--paper);
+        /* The glows bleed past the viewport on purpose. `clip` trims that
+           bleed without creating a scroll container, so the sticky header
+           keeps working — `overflow-x: hidden` would break it. */
+        overflow-x: clip;
         scroll-behavior: smooth;
         /* Sticky header clearance for hash links. */
-        scroll-padding-top: 5rem;
+        scroll-padding-top: 5.5rem;
         -webkit-text-size-adjust: 100%;
     }
 
     body {
-        background-color: var(--paper);
         color: var(--ink);
         font-family: var(--font-sans);
         font-size: 1rem;
         line-height: 1.65;
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
+    }
+
+    /* Ambient light.
+
+       Drawn as radial-gradients rather than a blurred element: filter: blur()
+       on a 700px box forces a large compositing layer that gets repainted, and
+       two of them on a fixed layer is a real scroll cost for no visual gain.
+       A gradient is free. The alpha is capped at the value where ink-faint on
+       glass-over-glow still measures 4.5:1 — that ceiling is not arbitrary. */
+    body::before,
+    body::after {
+        content: "";
+        position: fixed;
+        z-index: -1;
+        pointer-events: none;
+        width: min(48rem, 120vw);
+        height: min(36rem, 80vh);
+        border-radius: 50%;
+    }
+    body::before {
+        top: -14rem;
+        left: -6rem;
+        background: radial-gradient(closest-side, var(--glow-a), transparent 70%);
+    }
+    body::after {
+        bottom: -16rem;
+        right: -8rem;
+        background: radial-gradient(closest-side, var(--glow-b), transparent 70%);
     }
 
     h1, h2, h3, h4 {
@@ -161,12 +322,15 @@
         color: var(--accent);
         text-decoration-thickness: 1px;
         text-underline-offset: 0.18em;
+        transition: color 140ms ease;
     }
     a:hover { color: var(--accent-hover); }
 
+    /* An outline follows the element's own shape and needs no knowledge of
+       what is behind it, so it works on the page and on a card alike. */
     :focus-visible {
-        outline: none;
-        box-shadow: var(--focus);
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
         border-radius: 2px;
     }
 
@@ -179,8 +343,10 @@
         html { scroll-behavior: auto; }
         *, *::before, *::after {
             animation-duration: 0.01ms !important;
+            animation-delay: 0.01ms !important;
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
+            transition-delay: 0.01ms !important;
         }
     }
 }
@@ -189,15 +355,57 @@
     /* Page rhythm ------------------------------------------------------- */
     .shell {
         width: 100%;
-        max-width: 62rem;
+        max-width: 64rem;
         margin-inline: auto;
         padding-inline: 1.25rem;
     }
     @media (min-width: 768px) {
-        .shell { padding-inline: 2rem; }
+        .shell { padding-inline: 2.5rem; }
+    }
+    /* Back to the tighter label size once there is room for it. */
+    @media (min-width: 640px) {
+        .eyebrow, .tag, .badge, .claim-tone { font-size: 0.6875rem; }
+    }
+
+    /* Sections carry their own top spacing so no two rules can fight over
+       the gap between them. */
+    .section { padding-top: 5.5rem; }
+    @media (min-width: 768px) {
+        .section { padding-top: 7rem; }
     }
 
     .prose-measure { max-width: 68ch; }
+
+    /* Type scale --------------------------------------------------------- */
+    .t-display {
+        font-size: var(--fs-display);
+        line-height: 0.94;
+        letter-spacing: -0.038em;
+        font-weight: 600;
+    }
+    .t-h1 {
+        font-size: var(--fs-h1);
+        line-height: 1.06;
+        letter-spacing: -0.032em;
+        font-weight: 600;
+    }
+    .t-lede {
+        font-size: var(--fs-lede);
+        line-height: 1.5;
+        letter-spacing: -0.011em;
+    }
+    .t-h2 {
+        font-size: var(--fs-h2);
+        line-height: 1.12;
+        letter-spacing: -0.026em;
+        font-weight: 600;
+    }
+    .t-h3 {
+        font-size: var(--fs-h3);
+        line-height: 1.28;
+        letter-spacing: -0.018em;
+        font-weight: 600;
+    }
 
     /* The mono voice: identifiers, metadata, numbers, labels ------------- */
     .mono {
@@ -218,36 +426,84 @@
 
     .eyebrow {
         font-family: var(--font-mono);
-        font-size: 0.6875rem;
+        font-size: 0.75rem;
         font-weight: 500;
-        letter-spacing: 0.14em;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
         color: var(--ink-faint);
     }
 
-    /* Section head: an eyebrow with a rule running out to the margin. */
+    /* Section head.
+
+       These used to be an 11px mono eyebrow in --ink-faint, which meant the
+       page had no visible skeleton — you could scroll past a section boundary
+       without registering it. Now the title carries real size and full ink,
+       an accent mark anchors it, and the rule runs out to the margin. */
     .section-head {
-        display: grid;
-        grid-template-columns: auto 1fr;
+        display: flex;
         align-items: center;
-        gap: 1rem;
-        margin-bottom: 2rem;
+        gap: 0.875rem;
+        margin-bottom: 2.5rem;
+        font-size: clamp(1.375rem, 2.9vw, 1.9375rem);
+        font-weight: 600;
+        line-height: 1.1;
+        letter-spacing: -0.026em;
+        color: var(--ink);
+    }
+    .section-head::before {
+        content: "";
+        flex: none;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 2px;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 16%, transparent);
     }
     .section-head::after {
         content: "";
+        flex: 1;
         height: 1px;
+        min-width: 1.5rem;
+        background: var(--rule-strong);
+    }
+
+    /* Sub-head inside a section: the same shape, one step down. */
+    .sub-head {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        font-size: clamp(1.0625rem, 1.7vw, 1.25rem);
+        font-weight: 600;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+    }
+    .sub-head::before {
+        content: "";
+        flex: none;
+        width: 0.375rem;
+        height: 0.375rem;
+        border-radius: 1px;
+        background: var(--rule-strong);
+    }
+    .sub-head::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        min-width: 1.5rem;
         background: var(--rule);
     }
 
     /* Metadata rail: dates and venue in mono, left of the content. ------- */
     .rail {
         display: grid;
-        gap: 0.35rem 1.5rem;
+        gap: 0.35rem 1.75rem;
         grid-template-columns: 1fr;
     }
     @media (min-width: 800px) {
         .rail {
-            grid-template-columns: 8.5rem 1fr;
+            grid-template-columns: 9rem 1fr;
         }
     }
     .rail-label {
@@ -259,29 +515,58 @@
     }
 
     /* Claim: a figure and the condition under which it holds. ------------
-       The condition is not a footnote. It sits inside the same box, on the
-       same hairline grid, and it is never dropped at small sizes. */
+       The signature. The figure sits on the card; the condition sits on a
+       tinted band under a hairline, at full width, inside the same box. The
+       tint is the tone, so the qualifier is the loudest structural element
+       on the card rather than a footnote. An adverse claim renders through
+       exactly this path at exactly these sizes. */
     .claim {
         display: flex;
         flex-direction: column;
         border: 1px solid var(--rule);
         border-left-width: 3px;
-        border-radius: 3px;
+        border-radius: 8px;
         background: var(--surface);
-        padding: 0.75rem 0.875rem 0;
+        box-shadow: var(--shadow-card);
+        overflow: hidden;
         min-width: 0;
     }
+    /* A claim inside a card is not a second pane of glass: it borrows the
+       card's surface and keeps only its tone edge and its condition band. */
+    .card .claim {
+        box-shadow: none;
+        background: transparent;
+    }
+
     .claim-positive { border-left-color: var(--mark-positive); }
     .claim-adverse  { border-left-color: var(--mark-adverse); }
     .claim-neutral  { border-left-color: var(--mark-neutral); }
 
+    .claim-head {
+        flex: 1;
+        padding: 0.875rem 0.9375rem 0.9375rem;
+    }
+
+    .claim-tone {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+    .claim-positive .claim-tone { color: var(--ink-positive); }
+    .claim-adverse  .claim-tone { color: var(--ink-adverse); }
+    .claim-neutral  .claim-tone { color: var(--ink-muted); }
+
     .claim-figure {
         font-family: var(--font-mono);
         font-variant-numeric: tabular-nums;
-        font-size: 1.5rem;
+        font-size: var(--fs-figure);
         font-weight: 600;
-        line-height: 1.1;
-        letter-spacing: -0.02em;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
         overflow-wrap: anywhere;
     }
     .claim-positive .claim-figure { color: var(--ink-positive); }
@@ -290,43 +575,134 @@
 
     .claim-metric {
         font-size: 0.875rem;
-        line-height: 1.4;
+        line-height: 1.45;
         color: var(--ink);
-        margin-top: 0.25rem;
+        margin-top: 0.4rem;
     }
+
     .claim-condition {
         font-family: var(--font-mono);
         font-size: 0.75rem;
         line-height: 1.5;
-        color: var(--ink-muted);
         border-top: 1px solid var(--rule);
-        margin-top: 0.7rem;
-        padding: 0.55rem 0 0.75rem;
+        padding: 0.625rem 0.9375rem 0.6875rem;
+    }
+    .claim-positive .claim-condition {
+        background: var(--wash-positive);
+        color: var(--ink-positive);
+    }
+    .claim-adverse .claim-condition {
+        background: var(--wash-adverse);
+        color: var(--ink-adverse);
+    }
+    .claim-neutral .claim-condition {
+        background: var(--wash-neutral);
+        color: var(--ink-muted);
     }
     /* No injected prefix: a qualifier reads as a qualifier from its position
        under the rule and its muted mono voice. Injected words cannot be
        grammatical for every condition, and they do not survive copy-paste. */
 
+    /* Hero-scale claim. The figure grows; the condition does not shrink,
+       and every tone grows by the same amount. */
+    .claim-lead .claim-head { padding: 1.125rem 1.25rem 1.25rem; }
+    .claim-lead .claim-figure { font-size: var(--fs-figure-lead); }
+    .claim-lead .claim-metric { font-size: 0.9375rem; margin-top: 0.5rem; }
+    .claim-lead .claim-condition { padding: 0.75rem 1.25rem 0.875rem; }
+
     /* Cards and rows ----------------------------------------------------- */
     .card {
-        background: var(--surface);
+        position: relative;
+        isolation: isolate;
+        background: var(--glass);
+        -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+        backdrop-filter: blur(var(--glass-blur)) saturate(140%);
         border: 1px solid var(--rule);
-        border-radius: 4px;
+        border-radius: 22px;
         box-shadow: var(--shadow-card);
+        /* The inner glow is deliberately larger than the card. `clip` trims it
+           to the rounded edge without making the card a scroll container —
+           which is what stops it contributing to the page's scrollWidth. */
+        overflow: clip;
+    }
+
+    /* Light caught inside the card, brighter when you reach for it. Sits at
+       z-index -1 inside the card's own stacking context, which paints it above
+       the glass and below every word. */
+    .card-glow::before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        top: -7rem;
+        right: -7rem;
+        width: 18rem;
+        height: 18rem;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, var(--glow-card), transparent 70%);
+        opacity: 0.7;
+        transition: opacity 500ms ease;
+        pointer-events: none;
+    }
+    .card-glow:hover::before,
+    .card-glow:focus-within::before { opacity: 1; }
+
+    /* A card you can click into. The lift is the affordance. */
+    .card-interactive {
+        transition: box-shadow 200ms ease, border-color 200ms ease,
+                    transform 200ms ease;
+    }
+    @media (hover: hover) {
+        .card-interactive:hover {
+            box-shadow: var(--shadow-lift);
+            border-color: transparent;
+            transform: translateY(-4px);
+        }
+    }
+    .card-interactive:focus-within {
+        border-color: transparent;
+        box-shadow: var(--shadow-lift);
     }
 
     .tag {
         display: inline-block;
         font-family: var(--font-mono);
-        font-size: 0.6875rem;
+        font-size: 0.75rem;
         letter-spacing: 0.02em;
         color: var(--ink-muted);
         background: var(--surface-sunk);
         border: 1px solid var(--rule);
-        border-radius: 2px;
-        padding: 0.1rem 0.4rem;
+        border-radius: 5px;
+        padding: 0.2rem 0.5rem;
         overflow-wrap: anywhere;
     }
+
+    /* Timeline spine — used where the list really is a sequence. --------- */
+    .spine {
+        position: relative;
+        padding-left: 1.5rem;
+    }
+    .spine::before {
+        content: "";
+        position: absolute;
+        left: 3px;
+        top: 0.55rem;
+        bottom: 0.55rem;
+        width: 1px;
+        background: var(--rule);
+    }
+    .spine-item { position: relative; }
+    .spine-item::before {
+        content: "";
+        position: absolute;
+        left: -1.5rem;
+        top: 0.45rem;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--rule-strong);
+        outline: 3px solid var(--paper);
+    }
+    .spine-item-current::before { background: var(--accent); }
 
     /* Anything that could overflow gets its own scroll container. */
     .scroll-x {
@@ -339,6 +715,242 @@
         content: " \2197";
         font-size: 0.85em;
         display: inline-block;
+    }
+
+    /* A project title is a link, but colouring it like one would make every
+       card shout. It stays ink and declares itself on hover — including when
+       the hover is anywhere on the card. */
+    .title-link {
+        color: var(--ink);
+        text-decoration: none;
+        transition: color 160ms ease;
+    }
+    .title-link:hover,
+    .card-interactive:hover .title-link {
+        color: var(--accent);
+        text-decoration: underline;
+        text-underline-offset: 0.18em;
+    }
+
+    /* Touch targets -------------------------------------------------------
+       WCAG 2.2 AA (2.5.8) asks for 24x24 CSS px on anything that is not an
+       inline link inside a sentence. 44px is the comfortable size and is what
+       the primary controls get. These only set a minimum box; they never
+       change where the text sits. */
+    .tap {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;
+    }
+    .tap-sm {
+        display: inline-flex;
+        align-items: center;
+        min-height: 1.75rem;
+    }
+
+    /* Nav ---------------------------------------------------------------- */
+    /* On a phone the section list is wider than the space beside the name, so
+       it scrolls. The fade tells you that, instead of leaving a word looking
+       accidentally chopped. */
+    .nav-scroll {
+        mask-image: linear-gradient(to right, #000 calc(100% - 1.75rem), transparent);
+        -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 1.75rem), transparent);
+    }
+    @media (min-width: 640px) {
+        .nav-scroll { mask-image: none; -webkit-mask-image: none; }
+    }
+
+    .nav-link {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        white-space: nowrap;
+        min-height: 2.75rem;
+        padding: 0.375rem 0.625rem;
+        color: var(--ink-muted);
+        text-decoration: none;
+        transition: color 160ms ease;
+    }
+    .nav-link:hover { color: var(--ink); }
+    .nav-link[aria-current] { color: var(--accent); }
+    .nav-link::after {
+        content: "";
+        position: absolute;
+        left: 0.625rem;
+        right: 0.625rem;
+        bottom: 0.5rem;
+        height: 1px;
+        background: currentColor;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 200ms cubic-bezier(0.22, 0.72, 0.3, 1);
+    }
+    .nav-link:hover::after,
+    .nav-link[aria-current]::after { transform: scaleX(1); }
+
+    /* Buttons and pills -------------------------------------------------- */
+    .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--ink);
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 9px;
+        min-height: 2.75rem;
+        padding: 0.4rem 0.85rem;
+        text-decoration: none;
+        box-shadow: var(--shadow-card);
+        transition: border-color 160ms ease, transform 160ms ease,
+                    box-shadow 160ms ease;
+    }
+    @media (hover: hover) {
+        .pill:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+    }
+
+    /* Availability, stated once, at the top. The dot is a static mark, not a
+       pulse — a portfolio that blinks at you reads as a template. */
+    .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--accent);
+        background: var(--accent-wash);
+        border: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        border-radius: 999px;
+        padding: 0.3rem 0.8rem 0.3rem 0.65rem;
+    }
+    .status-pill::before {
+        content: "";
+        width: 0.4rem;
+        height: 0.4rem;
+        border-radius: 50%;
+        background: var(--accent);
+        flex: none;
+    }
+
+    /* An accent-tinted tile. Used only where the mark carries meaning the
+       heading does not already give you. */
+    .icon-tile {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 14px;
+        color: var(--accent);
+        background: var(--accent-wash);
+        border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent);
+        transition: transform 320ms cubic-bezier(0.22, 0.72, 0.3, 1);
+    }
+    .tile-host:hover .icon-tile { transform: scale(1.08); }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        letter-spacing: 0.02em;
+        color: var(--accent);
+        background: var(--accent-wash);
+        border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent);
+        border-radius: 999px;
+        padding: 0.15rem 0.6rem;
+        white-space: nowrap;
+    }
+
+    /* The arrow moves, the label does not. */
+    .arrow-link {
+        display: inline-flex;
+        align-items: center;
+        min-height: 1.75rem;
+        gap: 0.4rem;
+        text-decoration: none;
+    }
+    .arrow-link .arrow {
+        display: inline-block;
+        transition: transform 280ms cubic-bezier(0.22, 0.72, 0.3, 1);
+    }
+    .arrow-link:hover .arrow,
+    .tile-host:hover .arrow-link .arrow { transform: translateX(4px); }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-mono);
+        font-size: 0.875rem;
+        font-weight: 500;
+        background: var(--accent);
+        color: var(--paper);
+        border: 1px solid var(--accent);
+        border-radius: 9px;
+        min-height: 2.75rem;
+        padding: 0.55rem 1.25rem;
+        transition: background-color 160ms ease, border-color 160ms ease,
+                    opacity 160ms ease;
+    }
+    .btn:hover:not(:disabled) {
+        background: var(--accent-hover);
+        border-color: var(--accent-hover);
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 2.75rem;
+        width: 2.75rem;
+        border-radius: 9px;
+        border: 1px solid var(--rule);
+        color: var(--ink-muted);
+        background: transparent;
+        transition: background-color 160ms ease, color 160ms ease,
+                    border-color 160ms ease;
+    }
+    .icon-btn:hover {
+        background: var(--surface-sunk);
+        color: var(--ink);
+        border-color: var(--rule-strong);
+    }
+
+    /* Chromeless until you reach for it — used where a row of icons would
+       otherwise read as a row of boxes. */
+    .icon-btn-plain { border-color: transparent; }
+    .icon-btn-plain:hover { border-color: var(--rule); }
+
+    /* The toggle turns; a social icon does not. */
+    .icon-btn-turn svg { transition: transform 260ms cubic-bezier(0.22, 0.72, 0.3, 1); }
+    .icon-btn-turn:hover svg { transform: rotate(-20deg); }
+
+    /* Form fields -------------------------------------------------------- */
+    .field {
+        font-family: var(--font-mono);
+        width: 100%;
+        border-radius: 7px;
+        border: 1px solid var(--rule);
+        background: var(--surface);
+        min-height: 2.75rem;
+        padding: 0.6rem 0.75rem;
+        font-size: 0.875rem;
+        color: var(--ink);
+        transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+    .field::placeholder { color: var(--ink-faint); }
+    .field:hover { border-color: var(--rule-strong); }
+    .field:focus-visible {
+        border-color: var(--accent);
+        outline: 2px solid var(--accent);
+        outline-offset: -1px;
     }
 
     /* Skip link ---------------------------------------------------------- */
@@ -377,8 +989,141 @@
         font-size: 0.875em;
         background: var(--surface-sunk);
         border: 1px solid var(--rule);
-        border-radius: 2px;
+        border-radius: 3px;
         padding: 0.05em 0.3em;
     }
     .body-prose strong { font-weight: 650; }
+}
+
+/* ---------------------------------------------------------------------------
+   Motion.
+
+   One orchestrated settle on first paint, and micro-interactions on things
+   you can actually interact with. Nothing loops, nothing moves while the
+   reader is reading, and nothing delays a word becoming legible by more than
+   the length of the settle itself. The reduced-motion block in @layer base
+   zeroes both duration and delay, so this collapses to the final state
+   instead of merely running slower.
+--------------------------------------------------------------------------- */
+
+/* Scroll reveals.
+
+   Nothing is hidden by a stylesheet. JS arms only the elements that are below
+   the fold at the moment it runs, so above-the-fold content never flickers and
+   a failed bundle can never leave the page blank — which matters on a site
+   whose whole point is that every route is real prerendered HTML. */
+.reveal-armed {
+    opacity: 0;
+    transform: translateY(20px);
+}
+.reveal-armed.is-in {
+    opacity: 1;
+    transform: none;
+    transition: opacity 640ms cubic-bezier(0.22, 0.72, 0.3, 1),
+                transform 640ms cubic-bezier(0.22, 0.72, 0.3, 1);
+    transition-delay: calc(var(--r, 0) * 80ms);
+}
+
+/* The name assembles once, per letter, on first paint. Words are kept
+   unbreakable so the reveal never becomes a reason for the name to wrap
+   mid-word on a narrow screen. */
+.name-word {
+    display: inline-block;
+    white-space: nowrap;
+}
+.name-char {
+    display: inline-block;
+    animation: name-in 640ms cubic-bezier(0.22, 0.72, 0.3, 1) both;
+    animation-delay: calc(var(--c, 0) * 34ms);
+}
+
+@keyframes name-in {
+    from { opacity: 0; transform: translateY(0.36em) scale(0.94); filter: blur(7px); }
+    to   { opacity: 1; transform: none; filter: blur(0); }
+}
+
+/* The rotating line under the name. The caret is the only thing on the page
+   allowed to loop, and it stops dead under reduced motion. */
+.rotator {
+    position: relative;
+    display: inline-block;
+    min-height: 1.4em;
+}
+/* Holds the box at the width of the longest phrase so nothing beside the
+   rotator moves while it types. */
+.rotator-sizer {
+    visibility: hidden;
+    white-space: nowrap;
+}
+.rotator-live {
+    position: absolute;
+    inset: 0 auto 0 0;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+.rotator-caret {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0.55em;
+    height: 1.05em;
+    background: var(--accent);
+    transform: translate(calc(var(--n, 0) * (1ch + 0.16em)), -50%);
+    animation: caret-blink 1.1s steps(1, end) infinite;
+}
+@keyframes caret-blink {
+    0%, 45%   { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .rotator-caret { animation: none; opacity: 1; }
+}
+
+@keyframes enter-rise {
+    from { opacity: 0; transform: translateY(9px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.enter {
+    animation: enter-rise 380ms cubic-bezier(0.22, 0.72, 0.3, 1) both;
+    animation-delay: calc(var(--i, 0) * 50ms);
+}
+
+@keyframes enter-rule {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+}
+
+.enter-rule {
+    transform-origin: left;
+    animation: enter-rule 620ms cubic-bezier(0.22, 0.72, 0.3, 1) both;
+    animation-delay: calc(var(--i, 0) * 50ms);
+}
+
+/* Some readers turn transparency off at the OS level, and some machines would
+   rather not composite a blur behind ten cards. Honour it: the glass becomes a
+   solid pane cut from the same token, and the ambient light is dropped. Nothing
+   about the layout moves. */
+@media (prefers-reduced-transparency: reduce) {
+    .card {
+        background: var(--surface);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+    .card-glow::before,
+    body::before,
+    body::after { display: none; }
+}
+
+/* Theme change is a considered crossfade, not an instant repaint. The class
+   is added for the length of the transition and then removed, so hovering a
+   link never pays for a transition it does not need. */
+.theme-anim,
+.theme-anim *,
+.theme-anim *::before,
+.theme-anim *::after {
+    transition: background-color 240ms ease, border-color 240ms ease,
+                color 240ms ease, fill 240ms ease, stroke 240ms ease,
+                box-shadow 240ms ease !important;
 }

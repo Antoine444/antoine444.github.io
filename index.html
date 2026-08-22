@@ -9,13 +9,23 @@
     <link rel="canonical" href="https://antoine444.github.io/" />
     <title>Antoine Garin</title>
     <meta name="description" content="Antoine Garin — MSc Computer Science at EPFL. Concurrent and distributed systems, machine learning, and quantitative finance." />
+    <!-- Self-hosted subsets. Preloaded so the swap lands before first paint;
+         crossorigin is required even same-origin or the preload is discarded
+         and the file is fetched twice. -->
+    <link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <script>
       // Set the theme before first paint so there is no flash.
+      // This site is designed dark, so with no choice on record we set dark
+      // rather than following the OS. "system" is stored explicitly when the
+      // reader picks it, which is what lets that choice survive a reload.
       (function () {
         try {
           var stored = localStorage.getItem('theme');
           if (stored === 'light' || stored === 'dark') {
             document.documentElement.setAttribute('data-theme', stored);
+          } else if (stored !== 'system') {
+            document.documentElement.setAttribute('data-theme', 'dark');
           }
         } catch (e) { /* private mode: fall back to prefers-color-scheme */ }
       })();

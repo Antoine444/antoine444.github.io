@@ -16,7 +16,7 @@ export function LockWord() {
             label="Figure — VersionedLock, one std::atomic<uint64_t>"
             caption="Striped 2¹⁶-entry lock table, indexed by (address / align) % 65536. The clock is incremented by 2 so the low bit always stays clear and clock values compare directly against a lock word's version field."
         >
-            <svg viewBox="0 0 712 172" width="712" height="172" role="img"
+            <svg viewBox="0 0 712 184" width="712" height="184" role="img"
                  style={{ maxWidth: 'none' }}>
                 <title>64-bit versioned lock word layout</title>
                 <desc>
@@ -49,24 +49,25 @@ export function LockWord() {
                     L
                 </text>
 
-                {/* leader from the lock cell down to its label */}
-                <path d={`M ${(lockX + x1) / 2} ${y + h + 4} v 18 h -70`}
-                      fill="none" stroke="var(--rule-strong)" strokeWidth="1" />
-                <text x={(lockX + x1) / 2 - 76} y={y + h + 26} textAnchor="end"
-                      fontFamily="var(--font-mono)" fontSize="11.5" fill="var(--ink-muted)">
-                    lock bit (LSB)
-                </text>
-
-                {/* span annotation under the version field */}
+                {/* Span annotation under the version field, on the first row. */}
                 <path d={`M ${x0} ${y + h + 4} v 8 M ${lockX} ${y + h + 4} v 8 M ${x0} ${y + h + 8} H ${lockX}`}
                       fill="none" stroke="var(--rule-strong)" strokeWidth="1" />
-                <text x={x0} y={y + h + 28} textAnchor="start"
+                <text x={x0} y={y + h + 24} textAnchor="start"
                       fontFamily="var(--font-mono)" fontSize="11.5" fill="var(--ink-muted)">
                     63 bits — bumped by 2 per commit, so bit 0 is never disturbed
                 </text>
 
-                <line x1={x0} y1={148} x2={x1} y2={148} stroke="var(--rule)" />
-                <text x={x0} y={165} fontFamily="var(--font-mono)" fontSize="11.5"
+                {/* The lock-bit leader drops past that row before turning, so the
+                    two annotations never share a line. */}
+                <path d={`M ${(lockX + x1) / 2} ${y + h + 4} v 30 h -70`}
+                      fill="none" stroke="var(--rule-strong)" strokeWidth="1" />
+                <text x={(lockX + x1) / 2 - 76} y={y + h + 38} textAnchor="end"
+                      fontFamily="var(--font-mono)" fontSize="11.5" fill="var(--ink-muted)">
+                    lock bit (LSB)
+                </text>
+
+                <line x1={x0} y1={158} x2={x1} y2={158} stroke="var(--rule)" />
+                <text x={x0} y={176} fontFamily="var(--font-mono)" fontSize="11.5"
                       fill="var(--ink)">
                     One atomic load returns (locked?, version) as a consistent pair.
                 </text>

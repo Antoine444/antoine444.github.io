@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { ThemeToggle } from './ThemeToggle'
 import { SOCIALS } from './socials'
+import { useReveals } from './useReveals'
 import { links, profile } from '@/content/profile'
 
 /** Ids kept from the previous site so any shared link still lands correctly. */
@@ -31,35 +32,36 @@ function Header() {
                     .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0]
                 if (visible) setActive(`#${visible.target.id}`)
             },
-            { rootMargin: '-72px 0px -55% 0px', threshold: 0 }
+            { rootMargin: '-80px 0px -55% 0px', threshold: 0 }
         )
         sections.forEach((s) => observer.observe(s))
         return () => observer.disconnect()
     }, [onHome])
 
     return (
-        <header className="sticky top-0 z-50 border-b border-rule bg-paper/85 backdrop-blur-sm">
-            <div className="shell flex h-14 items-center justify-between gap-4">
+        <header
+            className="sticky top-0 z-50 border-b bg-paper/92 backdrop-blur-xl"
+            style={{ borderColor: 'var(--rule)', boxShadow: 'var(--shadow-header)' }}
+        >
+            <div className="shell flex h-16 items-center gap-3 sm:gap-4">
                 <Link
                     to="/"
-                    className="mono text-sm font-semibold tracking-tight no-underline"
+                    className="mono tap shrink-0 text-sm font-semibold tracking-tight no-underline"
                     style={{ color: 'var(--ink)' }}
                 >
                     Antoine&nbsp;Garin
                 </Link>
 
-                <nav aria-label="Sections" className="scroll-x -mx-1 hidden sm:block">
-                    <ul className="flex items-center gap-1 px-1">
+                {/* Scrolls sideways rather than disappearing: a phone reader
+                    still gets to the sections, and the header stays one row. */}
+                <nav aria-label="Sections" className="scroll-x nav-scroll -mx-1 min-w-0 flex-1">
+                    <ul className="mono flex w-max items-center gap-0.5 px-1 text-xs">
                         {NAV.map((n) => (
                             <li key={n.href}>
                                 <a
                                     href={onHome ? n.href : `/${n.href}`}
                                     aria-current={active === n.href ? 'true' : undefined}
-                                    className="mono rounded-sm px-2.5 py-1.5 text-xs no-underline transition-colors"
-                                    style={{
-                                        color: active === n.href ? 'var(--accent)' : 'var(--ink-muted)',
-                                        background: active === n.href ? 'var(--accent-wash)' : 'transparent',
-                                    }}
+                                    className="nav-link"
                                 >
                                     {n.label}
                                 </a>
@@ -68,7 +70,9 @@ function Header() {
                     </ul>
                 </nav>
 
-                <ThemeToggle />
+                <div className="shrink-0">
+                    <ThemeToggle />
+                </div>
             </div>
         </header>
     )
@@ -76,26 +80,32 @@ function Header() {
 
 function Footer() {
     return (
-        <footer className="mt-20 border-t border-rule py-10">
-            <div className="shell flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+        <footer className="mt-24 border-t pt-10 pb-14" style={{ borderColor: 'var(--rule)' }}>
+            <div className="shell grid gap-8 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start">
+                {/* A colophon, not a second hero: the page has already said what
+                    it has to say by the time a reader gets here. */}
                 <div className="max-w-md">
-                    <p className="text-sm text-ink-muted">{profile.interests}</p>
-                    <p className="mono mt-3 text-xs text-ink-faint">
+                    <p className="mono text-sm font-semibold" style={{ color: 'var(--ink)' }}>
+                        {profile.name}
+                    </p>
+                    <p className="mono mt-2 text-xs" style={{ color: 'var(--ink-faint)' }}>
+                        {profile.location}
+                    </p>
+                    <p className="mono mt-4 text-xs" style={{ color: 'var(--ink-faint)' }}>
                         © {new Date().getFullYear()} Antoine Garin ·{' '}
                         <a href={links.source} className="no-underline hover:underline">
                             source on GitHub
                         </a>
                     </p>
                 </div>
-                <ul className="flex flex-wrap items-center gap-1">
+                <ul className="flex flex-wrap items-center gap-1.5">
                     {SOCIALS.map(({ href, label, Icon }) => (
                         <li key={label}>
                             <a
                                 href={href}
                                 aria-label={label}
                                 title={label}
-                                className="inline-flex h-9 w-9 items-center justify-center rounded-sm
-                                           text-ink-muted transition-colors hover:bg-surface-sunk hover:text-ink"
+                                className="icon-btn icon-btn-plain"
                                 {...(href.startsWith('http')
                                     ? { target: '_blank', rel: 'noopener noreferrer' }
                                     : {})}
@@ -111,6 +121,9 @@ function Footer() {
 }
 
 export function Layout({ children }: { children: ReactNode }) {
+    const { pathname } = useLocation()
+    useReveals(pathname)
+
     return (
         <>
             <a href="#main" className="skip mono text-sm">

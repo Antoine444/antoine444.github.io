@@ -5,7 +5,6 @@ export const profile = {
         'I build correct concurrent and distributed systems, train and evaluate models rigorously, and apply both to financial problems.',
     location: 'Lausanne, Switzerland',
     citizenship: 'French citizen with EU work authorisation',
-    email: 'antoine.garin@epfl.ch',
     status: [
         { label: 'MSc Computer Science, EPFL', value: 'graduating November 2027' },
         { label: 'AI Intern, DAPM', value: 'through January 2027' },
@@ -18,7 +17,6 @@ export const links = {
     github: 'https://github.com/Antoine444',
     linkedin: 'https://www.linkedin.com/in/antoine-garin-775560320/',
     huggingface: 'https://huggingface.co/antoine-444',
-    email: 'mailto:antoine.garin@epfl.ch',
     source: 'https://github.com/Antoine444/antoine444.github.io',
 } as const
 
